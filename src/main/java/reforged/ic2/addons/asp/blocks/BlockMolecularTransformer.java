@@ -11,12 +11,16 @@ import mods.vintage.core.platform.config.IItemBlockIDProvider;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import reforged.ic2.addons.asp.AdvancedSolarPanels;
 import reforged.ic2.addons.asp.AdvancedSolarPanelsConfig;
@@ -38,6 +42,46 @@ public class BlockMolecularTransformer extends BlockContainer implements IItemBl
         this.setHardness(3.0F);
         this.setLightValue(1.0F);
         this.setCreativeTab(AdvancedSolarPanels.TAB);
+    }
+
+    @Override
+    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
+        return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
+    }
+
+    @Override
+    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 start, Vec3 end) {
+        MovingObjectPosition closest = null;
+        double closestDist = Double.MAX_VALUE;
+        AxisAlignedBB box = getPentagonBoundingBox(x, y, z);
+        MovingObjectPosition mop = box.calculateIntercept(start, end);
+        if (mop != null) {
+            double dist = start.distanceTo(mop.hitVec);
+            if (dist < closestDist) {
+                closest = new MovingObjectPosition(x, y, z, mop.sideHit, mop.hitVec);
+                closestDist = dist;
+            }
+        }
+        return closest;
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB mask, List list, Entity entity) {
+        AxisAlignedBB box = getPentagonBoundingBox(x, y, z);
+        if (box != null && mask.intersectsWith(box)) {
+            list.add(box);
+        }
+    }
+
+    // simple shape
+    public static AxisAlignedBB getPentagonBoundingBox(int x, int y, int z) {
+        float size = 0.35F;
+        double minX = x + 0.5 - size;
+        double maxX = x + 0.5 + size;
+        double minZ = z + 0.5 - size;
+        double maxZ = z + 0.5 + size;
+        double maxY = y + 1;
+        return AxisAlignedBB.getBoundingBox(minX, y, minZ, maxX, maxY, maxZ);
     }
 
     @Override

@@ -8,6 +8,7 @@ import ic2.core.ContainerBase;
 import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.block.TileEntityInventory;
+import ic2.core.block.invslot.InvSlotOutput;
 import mods.vintage.core.platform.lang.FormattedTranslator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +22,7 @@ import reforged.ic2.addons.asp.blocks.gui.GuiMolecularTransformer;
 import reforged.ic2.addons.asp.utils.EnergyUtils;
 import reforged.ic2.addons.asp.utils.molecular.MTRecipeManager;
 import reforged.ic2.addons.asp.utils.molecular.RecipeRecord;
-import reforged.ic2.addons.asp.utils.molecular.MolecularTransformerSlot;
+import reforged.ic2.addons.asp.utils.molecular.MolecularInputSlot;
 
 import java.util.List;
 import java.util.Random;
@@ -51,11 +52,13 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
     public int energyBuffer;
     public int inputEU;
     public boolean loaded = false;
-    public MolecularTransformerSlot workingSlots;
+    public MolecularInputSlot inputSlot;
+    public InvSlotOutput outputSlot;
 
     public TileEntityMolecularTransformer() {
         this.ticker = randomizer.nextInt(20);
-        this.workingSlots = new MolecularTransformerSlot(this, "transformer", 0, 2);
+        this.inputSlot = new MolecularInputSlot(this, "transformer_in", 0, 1);
+        this.outputSlot = new InvSlotOutput(this, "transformer_out", 1, 1);
     }
 
     @Override
@@ -84,9 +87,9 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
         this.inputEU = this.currentTickInputEU;
         this.currentTickInputEU = 0;
         updateSlots();
-        if (!this.doWork && this.workingSlots.get(0) != null) {
+        if (!this.doWork && this.inputSlot.get(0) != null) {
             if (canProcess()) {
-                this.workingSlots.get(0).stackSize -= this.lastRecipeInput.stackSize;
+                this.inputSlot.get(0).stackSize -= this.lastRecipeInput.stackSize;
                 this.lastRecipeEnergyUsed = 0;
                 this.waitOutputSlot = false;
                 this.lastProgress = 0;
@@ -121,17 +124,17 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
         if (recipePair == null) return false;
         ItemStack inputStack = recipePair.recipe.input;
         ItemStack outputStack = recipePair.recipe.output;
-        if (inputStack.isItemEqual(this.workingSlots.get(0))) {
-            if (this.workingSlots.get(1) != null) {
-                if (outputStack.isItemEqual(this.workingSlots.get(1))) {
-                    if (this.workingSlots.get(1).stackSize + outputStack.stackSize > this.workingSlots.get(1).getMaxStackSize()) {
+        if (inputStack.isItemEqual(this.inputSlot.get(0))) {
+            if (this.outputSlot.get(0) != null) {
+                if (outputStack.isItemEqual(this.outputSlot.get(0))) {
+                    if (this.outputSlot.get(0).stackSize + outputStack.stackSize > this.outputSlot.get(0).getMaxStackSize()) {
                         return false;
                     }
                 } else {
                     return false;
                 }
             }
-            if (this.workingSlots.get(0).stackSize < inputStack.stackSize) {
+            if (this.inputSlot.get(0).stackSize < inputStack.stackSize) {
                 return false;
             }
             this.lastRecipeInput = inputStack;
@@ -154,10 +157,10 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
                 this.lastRecipeEnergyUsed = this.lastRecipeEnergyPerOperation;
                 this.lastProgress = 100;
                 this.waitOutputSlot = true;
-                if (this.workingSlots.get(1) != null) {
-                    if (this.lastRecipeOutput.isItemEqual(this.workingSlots.get(1))) {
-                        if (this.workingSlots.get(1).getMaxStackSize() >= this.workingSlots.get(1).stackSize + this.lastRecipeOutput.stackSize) {
-                            this.workingSlots.get(1).stackSize += this.lastRecipeOutput.stackSize;
+                if (this.outputSlot.get(0) != null) {
+                    if (this.lastRecipeOutput.isItemEqual(this.outputSlot.get(0))) {
+                        if (this.outputSlot.get(0).getMaxStackSize() >= this.outputSlot.get(0).stackSize + this.lastRecipeOutput.stackSize) {
+                            this.outputSlot.get(0).stackSize += this.lastRecipeOutput.stackSize;
                             this.doWork = false;
                             this.deactiveTicker = 0;
                             onInventoryChanged();
@@ -167,7 +170,7 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
                         }
                     }
                 } else {
-                    this.workingSlots.put(1, this.lastRecipeOutput.copy());
+                    this.outputSlot.put(this.lastRecipeOutput.copy());
                     this.doWork = false;
                     this.deactiveTicker = 0;
                     this.deactiveTimer = true;
@@ -198,12 +201,12 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
     }
 
     public void updateSlots() {
-        if (this.workingSlots.get(0) != null && this.workingSlots.get(0).stackSize <= 0) {
-            this.workingSlots.put(0, null);
+        if (this.inputSlot.get(0) != null && this.inputSlot.get(0).stackSize <= 0) {
+            this.inputSlot.put(null);
             onInventoryChanged();
         }
-        if (this.workingSlots.get(1) != null && this.workingSlots.get(1).stackSize <= 0) {
-            this.workingSlots.put(1, null);
+        if (this.outputSlot.get(0) != null && this.outputSlot.get(0).stackSize <= 0) {
+            this.outputSlot.put(null);
             onInventoryChanged();
         }
     }
@@ -336,8 +339,8 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
     }
 
     public Pair<RecipeRecord, Integer> getCurrentRecipe() {
-        if (this.workingSlots.get(0) == null) return null;
-        ItemStack inputStack = this.workingSlots.get(0);
+        if (this.inputSlot.get(0) == null) return null;
+        ItemStack inputStack = this.inputSlot.get(0);
         List<RecipeRecord> recipes = MTRecipeManager.instance.getRecipes();
         for (int i = 0; i < recipes.size(); i++) {
             RecipeRecord recipe = recipes.get(i);

@@ -19,8 +19,8 @@ public class ContainerMolecularTransformer extends ContainerBase {
     public ContainerMolecularTransformer(InventoryPlayer inventoryPlayer, TileEntityMolecularTransformer tile) {
         super(tile);
         this.tile = tile;
-        addSlotToContainer(new SlotInvSlot(tile.workingSlots, 0, 20, 27));
-        addSlotToContainer(new SlotInvSlot(tile.workingSlots, 1, 20, 68));
+        addSlotToContainer(new SlotInvSlot(tile.inputSlot, 0, 20, 27));
+        addSlotToContainer(new SlotInvSlot(tile.outputSlot, 0, 20, 68));
 
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++)

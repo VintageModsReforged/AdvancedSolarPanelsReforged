@@ -54,18 +54,20 @@ public class GuiMolecularTransformer extends GuiContainer {
         int nmPos = (this.xSize - this.fontRenderer.getStringWidth(invName)) / 2;
         this.fontRenderer.drawString(invName, nmPos, 8, 0);
         int lastRecipe = this.tile.lastRecipeNumber;
-        if (lastRecipe != -1) {
-            RecipeRecord recipe = MTRecipeManager.instance.getRecipes().get(lastRecipe);
-            String text = FormattedTranslator.WHITE.format("message.info.molecular.input", recipe.input.stackSize + "*" + recipe.input.getDisplayName());
-            this.fontRenderer.drawString(text, 56, 26, 0);
-            text = FormattedTranslator.WHITE.format("message.info.molecular.output", recipe.output.stackSize + "*" + recipe.output.getDisplayName());
-            this.fontRenderer.drawString(text, 56, 26 + offset, 0);
-            text = FormattedTranslator.WHITE.format("message.info.molecular.energy", recipe.energy);
-            this.fontRenderer.drawString(text, 56, 26 + offset * 2, 0);
-            text = FormattedTranslator.WHITE.format("message.info.molecular.energy.in", this.tile.inputEU);
-            this.fontRenderer.drawString(text, 56, 26 + offset * 3, 0);
-            text = FormattedTranslator.WHITE.format("message.info.molecular.progress", this.tile.lastProgress);
-            this.fontRenderer.drawString(text, 56, 26 + offset * 4, 0);
+        if (this.tile.lastProgress > 0 || tile.doWork) {
+            if (lastRecipe != -1) {
+                RecipeRecord recipe = MTRecipeManager.instance.getRecipes().get(lastRecipe);
+                String text = FormattedTranslator.WHITE.format("message.info.molecular.input", recipe.input.stackSize + "*" + recipe.input.getDisplayName());
+                this.fontRenderer.drawString(text, 56, 26, 0);
+                text = FormattedTranslator.WHITE.format("message.info.molecular.output", recipe.output.stackSize + "*" + recipe.output.getDisplayName());
+                this.fontRenderer.drawString(text, 56, 26 + offset, 0);
+                text = FormattedTranslator.WHITE.format("message.info.molecular.energy", recipe.energy);
+                this.fontRenderer.drawString(text, 56, 26 + offset * 2, 0);
+                text = FormattedTranslator.WHITE.format("message.info.molecular.energy.in", this.tile.inputEU);
+                this.fontRenderer.drawString(text, 56, 26 + offset * 3, 0);
+                text = FormattedTranslator.WHITE.format("message.info.molecular.progress", this.tile.lastProgress);
+                this.fontRenderer.drawString(text, 56, 26 + offset * 4, 0);
+            }
         }
     }
 }

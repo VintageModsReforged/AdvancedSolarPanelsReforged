@@ -4,15 +4,15 @@ import ic2.core.block.TileEntityInventory;
 import ic2.core.block.invslot.InvSlotProcessable;
 import net.minecraft.item.ItemStack;
 
-public class MolecularTransformerSlot extends InvSlotProcessable {
+public class MolecularInputSlot extends InvSlotProcessable {
 
-    public MolecularTransformerSlot(TileEntityInventory base, String name, int oldStartIndex, int count) {
+    public MolecularInputSlot(TileEntityInventory base, String name, int oldStartIndex, int count) {
         super(base, name, oldStartIndex, count);
     }
 
     @Override
-    public boolean accepts(ItemStack itemStack) {
-        return itemStack != null;
+    public boolean accepts(ItemStack stack) {
+        return MTRecipeManager.instance.hasRecipeFor(stack);
     }
 
     @Override

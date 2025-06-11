@@ -26,95 +26,34 @@ public class MTRecipeConfig {
         if (filled) return;
 
         // Vanilla
-        addDefaultRecipe(new ItemStack(Item.skull, 1, 1), new ItemStack(Item.netherStar), 250000000);
-        addDefaultRecipe(new ItemStack(Item.ingotIron), Items.getItem("iridiumOre"), 9000000);
-        addDefaultRecipe(new ItemStack(Block.netherrack), new ItemStack(Item.gunpowder, 2), 70000);
-        addDefaultRecipe(new ItemStack(Block.sand), new ItemStack(Block.gravel), 50000);
-        addDefaultRecipe(new ItemStack(Block.dirt), new ItemStack(Block.blockClay), 50000);
-        addDefaultRecipe(new ItemStack(Item.coal, 1, 1), new ItemStack(Item.coal, 1, 0), 60000);
-        addDefaultRecipe(new ItemStack(Item.lightStoneDust), ASPBlocksItems.Component.SUNNARIUM_PART.getStack(), 1000000);
-        addDefaultRecipe(new ItemStack(Item.redstone), ASPBlocksItems.Component.SPECTRAL_SUNNARIUM_PART.getStack(), 10000000);
-        addDefaultRecipe(new ItemStack(Block.glowStone), ASPBlocksItems.Component.SUNNARIUM.getStack(), 9000000);
-        addDefaultRecipe(new ItemStack(Block.blockRedstone), ASPBlocksItems.Component.SPECTRAL_SUNNARIUM.getStack(), 90000000);
-        addDefaultRecipe(new ItemStack(Block.cloth, 1, 4), new ItemStack(Block.glowStone), 500000);
-        addDefaultRecipe(new ItemStack(Block.cloth, 1, 11), new ItemStack(Block.blockLapis), 500000);
-        addDefaultRecipe(new ItemStack(Block.cloth, 1, 14), new ItemStack(Block.blockRedstone), 500000);
-        addDefaultRecipe(new ItemStack(Item.dyePowder, 1, 4), "gemSapphire", 5000000);
-        addDefaultRecipe(new ItemStack(Item.redstone), "gemRuby", 5000000);
-        addDefaultRecipe(new ItemStack(Item.coal), Items.getItem("industrialDiamond"), 9000000);
-        addDefaultRecipe(Items.getItem("industrialDiamond"), new ItemStack(Item.diamond), 1000000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Item.skull, 1, 1), new ItemStack(Item.netherStar), 250000000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Item.ingotIron), Items.getItem("iridiumOre"), 9000000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Block.netherrack), new ItemStack(Item.gunpowder, 2), 70000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Block.sand), new ItemStack(Block.gravel), 50000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Block.dirt), new ItemStack(Block.blockClay), 50000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Item.coal, 1, 1), new ItemStack(Item.coal, 1, 0), 60000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Item.lightStoneDust), ASPBlocksItems.Component.SUNNARIUM_PART.getStack(), 1000000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Item.redstone), ASPBlocksItems.Component.SPECTRAL_SUNNARIUM_PART.getStack(), 10000000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Block.glowStone), ASPBlocksItems.Component.SUNNARIUM.getStack(), 9000000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Block.blockRedstone), ASPBlocksItems.Component.SPECTRAL_SUNNARIUM.getStack(), 90000000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Block.cloth, 1, 4), new ItemStack(Block.glowStone), 500000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Block.cloth, 1, 11), new ItemStack(Block.blockLapis), 500000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Block.cloth, 1, 14), new ItemStack(Block.blockRedstone), 500000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Item.dyePowder, 1, 4), "gemSapphire", 5000000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Item.redstone), "gemRuby", 5000000);
+        MTRecipeManager.addDefaultRecipe(new ItemStack(Item.coal), Items.getItem("industrialDiamond"), 9000000);
+        MTRecipeManager.addDefaultRecipe(Items.getItem("industrialDiamond"), new ItemStack(Item.diamond), 1000000);
 
         // OreDict-Based
-        addDefaultRecipe("dustTitanium", "dustChrome", 500000);
-        addDefaultRecipe("ingotTitanium", "ingotChrome", 500000);
-        addDefaultRecipe("gemNetherQuartz",  "gemCertusQuartz", 500000);
-        addDefaultRecipe("ingotCopper", "ingotNickel", 300000);
-        addDefaultRecipe("ingotTin", "ingotSilver", 500000);
-        addDefaultRecipe("ingotSilver", "ingotGold", 500000);
-        addDefaultRecipe("ingotGold", "ingotPlatinum", 9000000);
+        MTRecipeManager.addDefaultRecipe("dustTitanium", "dustChrome", 500000);
+        MTRecipeManager.addDefaultRecipe("ingotTitanium", "ingotChrome", 500000);
+        MTRecipeManager.addDefaultRecipe("gemNetherQuartz",  "gemCertusQuartz", 500000);
+        MTRecipeManager.addDefaultRecipe("ingotCopper", "ingotNickel", 300000);
+        MTRecipeManager.addDefaultRecipe("ingotTin", "ingotSilver", 500000);
+        MTRecipeManager.addDefaultRecipe("ingotSilver", "ingotGold", 500000);
+        MTRecipeManager.addDefaultRecipe("ingotGold", "ingotPlatinum", 9000000);
 
         filled = true;
-    }
-
-    public static void addDefaultRecipe(Object input, Object output, int energy) {
-        String inputStr = formatEntry(input, getStackSize(input));
-        String outputStr = formatEntry(output, getStackSize(output));
-        StringBuilder comment = new StringBuilder();
-        comment.append(" # ");
-        if (input instanceof ItemStack) {
-            comment.append(getReadableName((ItemStack) input));
-        } else {
-            comment.append((String) input);
-        }
-        comment.append(" → ");
-        if (output instanceof ItemStack) {
-            comment.append(getReadableName((ItemStack) output));
-        } else {
-            comment.append((String) output);
-        }
-        defaultLines.add(inputStr + "; " + outputStr + "; " + energy + comment);
-    }
-
-    private static String formatEntry(Object obj, int size) {
-        if (obj instanceof String) {
-            return formatOreDictEntry((String) obj, size);
-        } else if (obj instanceof ItemStack) {
-            return formatItemStackEntry((ItemStack) obj, size);
-        }
-        throw new RuntimeException("Unsupported type: " + obj.getClass().getCanonicalName());
-    }
-
-    private static String getReadableName(ItemStack stack) {
-        String name = stack.getDisplayName();
-        if (name == null || name.trim().isEmpty()) {
-            name = stack.getItem().getItemDisplayName(stack); // Fallback
-        }
-        return name + (stack.getItemDamage() != 0 ? " (meta " + stack.getItemDamage() + ")" : "");
-    }
-
-    private static String formatOreDictEntry(String oreName, int size) {
-        return "oredict:" + oreName + ":" + size;
-    }
-
-    private static String formatItemStackEntry(ItemStack stack, int size) {
-        String base = String.valueOf(stack.itemID);
-        int meta = stack.getItemDamage();
-        if (meta != 0) {
-            base += "-" + meta;
-        }
-        return base + ":" + size;
-    }
-
-    // Helper method to get stack size for input/output
-    private static int getStackSize(Object obj) {
-        if (obj instanceof ItemStack) {
-            return ((ItemStack) obj).stackSize;
-        } else if (obj instanceof String) {
-            // OreDict entries usually default to size 1 if not specified
-            return 1;
-        } else {
-            throw new RuntimeException("Unsupported type for stack size: " + obj.getClass());
-        }
     }
 
     public static void writeGuide(BufferedWriter bw) throws IOException {
