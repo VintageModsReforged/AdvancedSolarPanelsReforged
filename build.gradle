@@ -1,0 +1,64 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		maven { url "https://maven.fabricmc.net" }
+		maven { url "https://repo.sleeping.town" } //Commented out to use the version of voldeloom in the settings.gradle includeBuild (hopefully??)
+	}
+	dependencies {
+		classpath "agency.highlysuspect:voldeloom:2.4-SNAPSHOT"
+	}
+}
+
+apply plugin: "agency.highlysuspect.voldeloom"
+
+java {
+	toolchain {
+		//Last version able to set a --release as low as 6.
+		languageVersion = JavaLanguageVersion.of(11)
+	}
+}
+
+compileJava {
+	//Forge doesn't understand classes compiled to versions of the class-file format newer than Java 6's.
+	options.release.set(6)
+}
+
+String minecraftVersion = project.minecraft
+String forgeVersion = project.minecraft_forge
+archivesBaseName = project.modid
+version = project.mod_version
+
+volde {
+	runs {
+		client {
+			programArg "CrossVas"
+		}
+	}
+}
+
+repositories {
+	maven {
+		url = "https://api.modrinth.com/maven"
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${minecraftVersion}"
+	forge "net.minecraftforge:forge:${forgeVersion}:universal@zip"
+	mappings "net.minecraftforge:forge:${forgeVersion}:src@zip"
+
+	implementation 'com.google.code.gson:gson:2.11.0'
+
+//	modImplementation("maven.modrinth:nei:1.5.2.28")
+//	modImplementation("maven.modrinth:codechicken-core:0.8.7.3")
+
+	modImplementation files("libs/VintageCore-1.5.2-1.0.7-dev.jar")
+	modImplementation files("libs/industrialcraft-2_1.117.385-lf.jar")
+	modImplementation files("libs/craftguide.zip")
+}
+
+jar {
+	from('compat') {
+		include 'reforged/ic2/addons/asp/compat/**'
+	}
+}

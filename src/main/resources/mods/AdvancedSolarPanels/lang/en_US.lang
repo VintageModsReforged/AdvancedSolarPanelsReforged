@@ -1,0 +1,78 @@
+block.solar.advanced.name=Advanced Solar Panel
+block.solar.hybrid.name=Hybrid Solar Panel
+block.solar.ultimate.name=Ultimate Hybrid Solar Panel
+block.solar.quantum.name=Quantum Solar Panel
+block.solar.spectral.name=Spectral Solar Panel
+block.solar.singular.name=Singular Solar Panel
+block.solar.light_absorbing.name=Light Absorbing Solar Panel
+block.solar.photonic.name=Photonic Solar Panel
+block.quantum.generator.name=Quantum Generator
+block.molecular.transformer.name=Molecular Transformer
+
+# parts
+item.irradiant.uranium.name=Irradiant Uranium
+item.sunnarium.part.name=Sunnarium Part
+item.spectral.sunnarium.part.name=Spectral Sunnarium Part
+item.ender.sunnarium.part.name=Ender Sunnarium Part
+# chunks
+item.sunnarium.name=Sunnarium
+item.enriched.sunnarium.name=Enriched Sunnarium
+item.spectral.sunnarium.name=Spectral Sunnarium
+item.ender.sunnarium.name=Ender Sunnarium
+# alloys
+item.sunnarium.alloy.name=Sunnarium Alloy
+item.enriched.sunnarium.alloy.name=Enriched Sunnarium Alloy
+item.spectral.sunnarium.alloy.name=Spectral Sunnarium Alloy
+item.ender.sunnarium.alloy.name=Ender Sunnarium Alloy
+# glass panes
+item.irradiant.glass.pane.name=Irradiant Glass Pane
+item.spectral.glass.pane.name=Spectral Glass Pane
+# plates
+item.iridium.iron.plate.name=Iridium Iron Plate
+item.reinforced.iridium.iron.plate.name=Reinforced Iridium Iron Plate
+item.irradiant.reinforced.plate.name=Irradiant Reinforced Plate
+item.spectral.reinforced.plate.name=Spectral Reinforced Plate
+# cores
+item.quantum.core.name=Quantum Core
+item.photonic.core.name=Photonic Core
+# misc
+item.ingot.iridium.name=Iridium Ingot
+item.mt.core.name=MT Core
+# helmets
+item.helmet.advanced.name=Advanced Solar Helmet
+item.helmet.hybrid.name=Hybrid Solar Helmet
+item.helmet.ultimate.name=Ultimate Solar Helmet
+
+message.info.solar.storage=Storage: %s/%s
+message.info.solar.max.out=Max Output: %s EU/t
+message.info.solar.generating=Generating: %s EU/t
+
+tooltip.info.solar.gen.day=Daytime Generation: %s EU/t
+tooltip.info.solar.gen.night=Nighttime or Rain Generation: %s EU/t
+tooltip.info.solar.tier=Tier: %s
+
+message.info.energy=%s/%s EU %s
+message.info.energy.tier=(Tier: %s)
+
+message.info.quantum.packet=%s Packet/Tick
+message.info.quantum.packet.size=%s EU/Packet
+message.info.quantum.energy.total=Total Emitting: %s EU/t
+message.info.quantum.info.1=Press (Ctrl) to: 10x
+message.info.quantum.info.2=Press (Shift) to: 100x
+message.info.quantum.info.3=Press (Ctrl + Shift) to: 1000x
+
+message.info.molecular.input=Input: %s
+message.info.molecular.output=Output: %s
+message.info.molecular.energy=Energy: %s EU
+message.info.molecular.energy.in=Energy in: %s EU/t
+message.info.molecular.progress=Progress: %s%%
+
+message.info.helmet.night.vision=Night Vision: %s
+message.info.helmet.night.vision.short=Night Vision
+message.info.enabled=Enabled
+message.info.disabled=Disabled
+message.info.helmet.line1=Portable solar energy provider.
+message.info.helmet.line2=Provides Night Vision when light level is lower than 8.
+
+message.info.press.to.enable2=Press %1$s and %2$s to enable %3$s
+message.info.press=Press %1$s for more info

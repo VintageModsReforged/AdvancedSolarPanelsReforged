@@ -1,0 +1,7 @@
+/.gradle/
+/.idea/
+/build/
+/compat/
+/libs/
+/old/
+/run/
