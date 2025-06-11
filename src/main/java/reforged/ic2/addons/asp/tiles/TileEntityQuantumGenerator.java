@@ -68,10 +68,10 @@ public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implemen
 
         // ensure we emit normal amount when no sinks are present
         if (sinkCount == 0) sinkCount = 1;
-        // adjust packet count
-        int adjustedPackets = this.packets * sinkCount;
-        for (int i = 0; i < adjustedPackets; i++) {
-            sendEnergy(this.packetEnergy);
+        // adjust packet size
+        int adjustedPacketSize = this.packetEnergy * sinkCount;
+        for (int i = 0; i < this.packets; i++) {
+            sendEnergy(adjustedPacketSize);
         }
     }
 
