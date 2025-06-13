@@ -4,21 +4,20 @@ import mods.vintage.core.helpers.ConfigHelper;
 import mods.vintage.core.platform.config.ItemBlockID;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
-import reforged.ic2.addons.asp.utils.EnergyUtils;
 
 import java.util.Arrays;
 
 public class AdvancedSolarPanelsConfig extends Configuration {
 
-    public static final String SOLARS = "solar";
+    public static final String SOLARS = "solar-energy-values";
 
     public static String[] LANGS;
     public static ItemBlockID ASP_META_BLOCK_ID = ItemBlockID.ofBlock("aspMetaBlockID", 1);
-    public static ItemBlockID ASP_TRANSFORMER = ItemBlockID.ofBlock("aspTransformer", 1);
+    public static ItemBlockID ASP_TRANSFORMER_ID = ItemBlockID.ofBlock("aspTransformer", 1);
     public static ItemBlockID ASP_ITEM_ID = ItemBlockID.ofItem("aspMetaItemID", 1);
-    public static ItemBlockID ADVANCED_HELMET = ItemBlockID.ofItem("aspAdvancedHelmet", 1);
-    public static ItemBlockID HYBRID_HELMET = ItemBlockID.ofItem("aspHybridHelmet", 1);
-    public static ItemBlockID ULTIMATE_HELMET = ItemBlockID.ofItem("aspUltimateHelmet", 1);
+    public static ItemBlockID ADVANCED_HELMET_ID = ItemBlockID.ofItem("aspAdvancedHelmet", 1);
+    public static ItemBlockID HYBRID_HELMET_ID = ItemBlockID.ofItem("aspHybridHelmet", 1);
+    public static ItemBlockID ULTIMATE_HELMET_ID = ItemBlockID.ofItem("aspUltimateHelmet", 1);
 
     // solar
     public static SolarConfig ADVANCED;
@@ -40,9 +39,9 @@ public class AdvancedSolarPanelsConfig extends Configuration {
     public static boolean SINGULAR_SOLAR = true;
     public static boolean LIGHT_ABSORBING_SOLAR = true;
     public static boolean PHOTONIC_SOLAR = true;
-    public static boolean ADVANCED_HELMET_RECIPE = true;
-    public static boolean HYBRID_HELMET_RECIPE = true;
-    public static boolean ULTIMATE_HELMET_RECIPE = true;
+    public static boolean ADVANCED_HELMET = true;
+    public static boolean HYBRID_HELMET = true;
+    public static boolean ULTIMATE_HELMET = true;
 
     public AdvancedSolarPanelsConfig() {
         super(ConfigHelper.getConfigFileFor(References.MOD_ID + "/main"));
@@ -61,19 +60,19 @@ public class AdvancedSolarPanelsConfig extends Configuration {
         PHOTONIC = new SolarConfig(this, "photonic", 524288, 262144, 1000000000, 8);
 
         // recipes
-        HARD_RECIPES = ConfigHelper.getBoolean(this, "recipes", "hardRecipes", HARD_RECIPES, "Enable Hard Recipes");
-        DOUBLE_SLAB = ConfigHelper.getBoolean(this, "recipes", "doubleSlab", DOUBLE_SLAB, "Enable Double Stone Slab Recipe");
-        ADVANCED_SOLAR = ConfigHelper.getBoolean(this, "recipes", "advanced", ADVANCED_SOLAR, "Enable Advanced Solar Panel Recipe");
-        HYBRID_SOLAR = ConfigHelper.getBoolean(this, "recipes", "hybrid", HYBRID_SOLAR, "Enable Hybrid Solar Panel Recipe");
-        ULTIMATE_SOLAR = ConfigHelper.getBoolean(this, "recipes", "ultimate", ULTIMATE_SOLAR, "Enable Ultimate Solar Panel Recipe");
-        QUANTUM_SOLAR = ConfigHelper.getBoolean(this, "recipes", "quantum", QUANTUM_SOLAR, "Enable Quantum Solar Panel Recipe");
-        SPECTRAL_SOLAR = ConfigHelper.getBoolean(this, "recipes", "spectral", SPECTRAL_SOLAR, "Enable Spectral Solar Panel Recipe");
-        SINGULAR_SOLAR = ConfigHelper.getBoolean(this, "recipes", "singular", SINGULAR_SOLAR, "Enable Singular Solar Panel Recipe");
-        LIGHT_ABSORBING_SOLAR = ConfigHelper.getBoolean(this, "recipes", "light_absorbing", LIGHT_ABSORBING_SOLAR, "Enable Light Absorbing Solar Panel Recipe");
-        PHOTONIC_SOLAR = ConfigHelper.getBoolean(this, "recipes", "photonic", PHOTONIC_SOLAR, "Enable Photonic Solar Panel Recipe");
-        ADVANCED_HELMET_RECIPE = ConfigHelper.getBoolean(this, "recipes-helmet", "advanced", ADVANCED_HELMET_RECIPE, "Enable Advanced Solar Helmet Recipe");
-        HYBRID_HELMET_RECIPE = ConfigHelper.getBoolean(this, "recipes-helmet", "hybrid", HYBRID_HELMET_RECIPE, "Enable Hybrid Solar Helmet Recipe");
-        ULTIMATE_HELMET_RECIPE = ConfigHelper.getBoolean(this, "recipes-helmet", "ultimate", ULTIMATE_HELMET_RECIPE, "Enable Ultimate Solar Helmet Recipe");
+        HARD_RECIPES = ConfigHelper.getBoolean(this, "recipes-general", "hardRecipes", HARD_RECIPES, "Enable Hard Recipes");
+        DOUBLE_SLAB = ConfigHelper.getBoolean(this, "recipes-panels", "doubleSlab", DOUBLE_SLAB, "Enable Double Stone Slab Recipe");
+        ADVANCED_SOLAR = ConfigHelper.getBoolean(this, "recipes-panels", "advanced", ADVANCED_SOLAR, "Enable Advanced Solar Panel Recipe");
+        HYBRID_SOLAR = ConfigHelper.getBoolean(this, "recipes-panels", "hybrid", HYBRID_SOLAR, "Enable Hybrid Solar Panel Recipe");
+        ULTIMATE_SOLAR = ConfigHelper.getBoolean(this, "recipes-panels", "ultimate", ULTIMATE_SOLAR, "Enable Ultimate Solar Panel Recipe");
+        QUANTUM_SOLAR = ConfigHelper.getBoolean(this, "recipes-panels", "quantum", QUANTUM_SOLAR, "Enable Quantum Solar Panel Recipe");
+        SPECTRAL_SOLAR = ConfigHelper.getBoolean(this, "recipes-panels", "spectral", SPECTRAL_SOLAR, "Enable Spectral Solar Panel Recipe");
+        SINGULAR_SOLAR = ConfigHelper.getBoolean(this, "recipes-panels", "singular", SINGULAR_SOLAR, "Enable Singular Solar Panel Recipe");
+        LIGHT_ABSORBING_SOLAR = ConfigHelper.getBoolean(this, "recipes-panels", "light_absorbing", LIGHT_ABSORBING_SOLAR, "Enable Light Absorbing Solar Panel Recipe");
+        PHOTONIC_SOLAR = ConfigHelper.getBoolean(this, "recipes-panels", "photonic", PHOTONIC_SOLAR, "Enable Photonic Solar Panel Recipe");
+        ADVANCED_HELMET = ConfigHelper.getBoolean(this, "recipes-helmet", "advanced", ADVANCED_HELMET, "Enable Advanced Solar Helmet Recipe");
+        HYBRID_HELMET = ConfigHelper.getBoolean(this, "recipes-helmet", "hybrid", HYBRID_HELMET, "Enable Hybrid Solar Helmet Recipe");
+        ULTIMATE_HELMET = ConfigHelper.getBoolean(this, "recipes-helmet", "ultimate", ULTIMATE_HELMET, "Enable Ultimate Solar Helmet Recipe");
     }
 
     public static int[] getInts(Configuration cfg, String cat, String tag, int[] defaultValue, String comment) {

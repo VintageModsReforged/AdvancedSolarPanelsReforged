@@ -25,9 +25,9 @@ public class ASPBlocksItems {
 
     public static void init() {
         COMPONENT = registerItem(new ItemComponent(), "component");
-        ADVANCED_HELMET = registerItem(new ItemArmorAdvancedSolarHelmet(AdvancedSolarPanelsConfig.ADVANCED_HELMET.get(), "advanced", AdvancedSolarPanelsConfig.ADVANCED), "advanced_helmet");
-        HYBRID_HELMET = registerItem(new ItemArmorAdvancedSolarHelmet(AdvancedSolarPanelsConfig.HYBRID_HELMET.get(), "hybrid", AdvancedSolarPanelsConfig.HYBRID), "hybrid_helmet");
-        ULTIMATE_HELMET = registerItem(new ItemArmorAdvancedSolarHelmet(AdvancedSolarPanelsConfig.ULTIMATE_HELMET.get(), "ultimate", AdvancedSolarPanelsConfig.ULTIMATE), "ultimate_helmet");
+        ADVANCED_HELMET = registerItem(new ItemArmorAdvancedSolarHelmet(AdvancedSolarPanelsConfig.ADVANCED_HELMET_ID.get(), "advanced", AdvancedSolarPanelsConfig.ADVANCED), "advanced_helmet");
+        HYBRID_HELMET = registerItem(new ItemArmorAdvancedSolarHelmet(AdvancedSolarPanelsConfig.HYBRID_HELMET_ID.get(), "hybrid", AdvancedSolarPanelsConfig.HYBRID), "hybrid_helmet");
+        ULTIMATE_HELMET = registerItem(new ItemArmorAdvancedSolarHelmet(AdvancedSolarPanelsConfig.ULTIMATE_HELMET_ID.get(), "ultimate", AdvancedSolarPanelsConfig.ULTIMATE), "ultimate_helmet");
 
         ASP_META_BLOCK = new BlockAdvancedSolarPanelsMeta();
         GameRegistry.registerBlock(ASP_META_BLOCK, ItemBlockAdvancedSolarPanelsMeta.class, "blockAdvSolarMeta");

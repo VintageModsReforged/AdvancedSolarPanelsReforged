@@ -44,10 +44,8 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
 
     private boolean deactiveTimer = false;
     private int deactiveTicker = 0;
-    private int deactiveTickrate = 40;
 
     private int energyTicker = 0;
-    private int energyTickRate = 60;
     public short lastProgress;
     public int energyBuffer;
     public int inputEU;
@@ -104,7 +102,8 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
                 }
             } else {
                 this.energyTicker++;
-                if (this.energyTicker >= this.energyTickRate) {
+                int energyTickRate = 60;
+                if (this.energyTicker >= energyTickRate) {
                     this.energyTicker = 0;
                     if (this.getActive()) {
                         this.setActive(false);
@@ -366,7 +365,8 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
     public void checkDeactivateMachine() {
         if (this.deactiveTimer) {
             this.deactiveTicker++;
-            if (this.deactiveTicker == this.deactiveTickrate) {
+            int deactiveTickrate = 40;
+            if (this.deactiveTicker == deactiveTickrate) {
                 this.deactiveTicker = 0;
                 this.deactiveTimer = false;
                 setActive(false);

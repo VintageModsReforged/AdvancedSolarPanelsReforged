@@ -38,7 +38,7 @@ public class BlockMolecularTransformer extends BlockContainer implements IItemBl
     public Icon icon;
 
     public BlockMolecularTransformer() {
-        super(AdvancedSolarPanelsConfig.ASP_TRANSFORMER.get(), Material.iron);
+        super(AdvancedSolarPanelsConfig.ASP_TRANSFORMER_ID.get(), Material.iron);
         this.setHardness(3.0F);
         this.setLightValue(1.0F);
         this.setCreativeTab(AdvancedSolarPanels.TAB);

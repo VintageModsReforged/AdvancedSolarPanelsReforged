@@ -246,7 +246,7 @@ public class ASPRecipes {
                     'X', ASPBlocksItems.Panels.LIGHT_ABSORBING.getStack());
         }
 
-        if (AdvancedSolarPanelsConfig.ADVANCED_HELMET_RECIPE) {
+        if (AdvancedSolarPanelsConfig.ADVANCED_HELMET) {
             Recipes.advRecipes.addRecipe(new ItemStack(ASPBlocksItems.ADVANCED_HELMET),
                     " B ", "#H#", "CTC",
                     'B', ASPBlocksItems.Panels.ADVANCED.getStack(),
@@ -256,7 +256,7 @@ public class ASPRecipes {
                     'T', Items.getItem("lvTransformer"));
         }
 
-        if (AdvancedSolarPanelsConfig.HYBRID_HELMET_RECIPE) {
+        if (AdvancedSolarPanelsConfig.HYBRID_HELMET) {
             Recipes.advRecipes.addRecipe(new ItemStack(ASPBlocksItems.HYBRID_HELMET),
                     " B ", "#H#", "CTC",
                     'B', ASPBlocksItems.Panels.HYBRID.getStack(),
@@ -266,7 +266,7 @@ public class ASPRecipes {
                     'T', Items.getItem("hvTransformer"));
         }
 
-        if (AdvancedSolarPanelsConfig.ULTIMATE_HELMET_RECIPE) {
+        if (AdvancedSolarPanelsConfig.ULTIMATE_HELMET) {
             Recipes.advRecipes.addRecipe(new ItemStack(ASPBlocksItems.ULTIMATE_HELMET),
                     " B ", "#H#", "CTC",
                     'B', ASPBlocksItems.Panels.ULTIMATE.getStack(),
