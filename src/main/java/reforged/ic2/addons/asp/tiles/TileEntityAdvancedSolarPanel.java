@@ -25,13 +25,13 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
     public int maxStorage;
     public int dayGen;
     public int nightGen;
-    int tier;
+    public int tier;
     public int storage;
     public int maxOutput;
     public final InvSlotMultiCharge chargeSlot;
     public GenerationState generationState = GenerationState.NONE;
     // common production
-    int production;
+    public int production;
 
     public TileEntityAdvancedSolarPanel(AdvancedSolarPanelsConfig.SolarConfig energyConfig) {
         this(energyConfig.getGenDay(), energyConfig.getGenNight(), energyConfig.getStorage(), energyConfig.getTier());

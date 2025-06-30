@@ -53,6 +53,7 @@ dependencies {
 //	modImplementation("maven.modrinth:codechicken-core:0.8.7.3")
 
 	modImplementation files("libs/VintageCore-1.5.2-1.0.7-dev.jar")
+	modImplementation files("libs/BlockHelperAddons-1.5.2-2.0.0-dev.jar")
 	modImplementation files("libs/industrialcraft-2_1.117.385-lf.jar")
 	modImplementation files("libs/craftguide.zip")
 }

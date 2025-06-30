@@ -1,6 +1,7 @@
 package reforged.ic2.addons.asp;
 
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -10,6 +11,7 @@ import mods.vintage.core.platform.lang.ILangProvider;
 import mods.vintage.core.platform.lang.LangManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import reforged.ic2.addons.asp.compat.waila.WailaPlugin;
 import reforged.ic2.addons.asp.proxy.CommonProxy;
 
 import java.util.Arrays;
@@ -49,6 +51,9 @@ public class AdvancedSolarPanels implements ILangProvider {
     @Mod.PostInit
     public void postInit(FMLPostInitializationEvent e) {
         PROXY.postInit(e);
+        if (Loader.isModLoaded("BlockHelperAddons")) {
+            WailaPlugin.init();
+        }
     }
 
     @Override
