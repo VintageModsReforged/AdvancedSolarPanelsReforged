@@ -85,8 +85,9 @@ public class ItemArmorAdvancedSolarHelmet extends ItemArmor implements IElectric
 
     @SuppressWarnings("unchecked")
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean debug) {
-        ElectricHelper.energyTooltip(ElectricHelper.getCharge(stack), this.getMaxCharge(stack), this.getTier(stack));
+        list.add(ElectricHelper.energyTooltip(ElectricHelper.getCharge(stack), this.getMaxCharge(stack), this.getTier(stack)));
         NBTTagCompound tag = StackHelper.getOrCreateTag(stack);
         boolean nightVision = tag.getBoolean("nightVision");
         if (nightVision) {

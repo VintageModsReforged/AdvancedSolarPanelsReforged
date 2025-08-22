@@ -22,7 +22,7 @@ public class AdvancedSolarPanels {
     public static final CreativeTabs TAB = new CreativeTabs(References.MOD_ID) {
         @Override
         public ItemStack getIconItemStack() {
-            return new ItemStack(ASPBlocksItems.ASP_META_BLOCK, 1, 2);
+            return ASPBlocksItems.Panels.ULTIMATE.getStack();
         }
     };
 
