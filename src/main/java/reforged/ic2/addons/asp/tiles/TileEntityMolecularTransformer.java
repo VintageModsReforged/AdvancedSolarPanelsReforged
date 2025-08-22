@@ -9,7 +9,8 @@ import ic2.core.IC2;
 import ic2.core.IHasGui;
 import ic2.core.block.TileEntityInventory;
 import ic2.core.block.invslot.InvSlotOutput;
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.helpers.ElectricHelper;
+import mods.vintage.core.platform.lang.Translator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,7 +20,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import reforged.ic2.addons.asp.blocks.container.ContainerMolecularTransformer;
 import reforged.ic2.addons.asp.blocks.gui.GuiMolecularTransformer;
-import reforged.ic2.addons.asp.utils.EnergyUtils;
 import reforged.ic2.addons.asp.utils.molecular.MTRecipeManager;
 import reforged.ic2.addons.asp.utils.molecular.RecipeRecord;
 import reforged.ic2.addons.asp.utils.molecular.MolecularInputSlot;
@@ -296,7 +296,7 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
 
     @Override
     public String getInvName() {
-        return FormattedTranslator.AQUA.format("block.molecular.transformer.name");
+        return Translator.AQUA.format("block.molecular.transformer.name");
     }
 
     @Override
@@ -324,7 +324,7 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
 
     @Override
     public int getMaxSafeInput() {
-        return EnergyUtils.getPowerFromTier(6);
+        return ElectricHelper.getMaxInputFromTier(6);
     }
 
     @Override

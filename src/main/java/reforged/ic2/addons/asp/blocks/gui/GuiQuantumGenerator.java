@@ -1,7 +1,7 @@
 package reforged.ic2.addons.asp.blocks.gui;
 
 import ic2.api.network.NetworkHelper;
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.platform.lang.Translator;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import org.lwjgl.opengl.GL11;
@@ -46,13 +46,13 @@ public class GuiQuantumGenerator extends GuiContainer {
 
         int nameX = (this.xSize - this.fontRenderer.getStringWidth(name)) / 2;
         this.fontRenderer.drawString(name, nameX, 7, 0x757575); // 7718655 in hex
-        String text = FormattedTranslator.WHITE.format("message.info.quantum.packet", tile.packets);
+        String text = Translator.WHITE.format("message.info.quantum.packet", tile.packets);
         int posX = (this.xSize - this.fontRenderer.getStringWidth(text)) / 2;
         this.fontRenderer.drawString(text, posX, 20, 4210752);
-        text = FormattedTranslator.WHITE.format("message.info.quantum.packet.size", tile.packetEnergy);
+        text = Translator.WHITE.format("message.info.quantum.packet.size", tile.packetEnergy);
         posX = (this.xSize - this.fontRenderer.getStringWidth(text)) / 2;
         this.fontRenderer.drawString(text, posX, 37, 4210752);
-        text = FormattedTranslator.WHITE.format("message.info.quantum.energy.total", tile.packets * tile.packetEnergy);
+        text = Translator.WHITE.format("message.info.quantum.energy.total", tile.packets * tile.packetEnergy);
         posX = (this.xSize - this.fontRenderer.getStringWidth(text)) / 2;
         this.fontRenderer.drawString(text, posX, 70, 4210752);
     }
@@ -72,11 +72,11 @@ public class GuiQuantumGenerator extends GuiContainer {
                             mouseY < myButton.yPosition + myButton.getHeight();
                     if (hover) {
                         if (btn.id == 0 || btn.id == 2) {
-                            tooltip.add(FormattedTranslator.WHITE.format("message.info.quantum.info.1"));
+                            tooltip.add(Translator.WHITE.format("message.info.quantum.info.1"));
                         } else {
-                            tooltip.add(FormattedTranslator.WHITE.format("message.info.quantum.info.1"));
-                            tooltip.add(FormattedTranslator.WHITE.format("message.info.quantum.info.2"));
-                            tooltip.add(FormattedTranslator.WHITE.format("message.info.quantum.info.3"));
+                            tooltip.add(Translator.WHITE.format("message.info.quantum.info.1"));
+                            tooltip.add(Translator.WHITE.format("message.info.quantum.info.2"));
+                            tooltip.add(Translator.WHITE.format("message.info.quantum.info.3"));
                         }
                     }
                 }

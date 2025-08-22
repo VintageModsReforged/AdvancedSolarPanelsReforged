@@ -6,6 +6,7 @@ import ic2.api.Direction;
 import ic2.api.item.ElectricItem;
 import ic2.core.ContainerBase;
 import ic2.core.block.generator.tileentity.TileEntityBaseGenerator;
+import mods.vintage.core.helpers.ElectricHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,6 @@ import net.minecraftforge.common.ForgeDirection;
 import reforged.ic2.addons.asp.AdvancedSolarPanelsConfig;
 import reforged.ic2.addons.asp.blocks.container.ContainerAdvancedSolarPanel;
 import reforged.ic2.addons.asp.blocks.gui.GuiAdvancedSolarPanel;
-import reforged.ic2.addons.asp.utils.EnergyUtils;
 import reforged.ic2.addons.asp.utils.InvSlotMultiCharge;
 
 public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
@@ -43,7 +43,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
         this.nightGen = nightGen;
         this.maxStorage = maxStorage;
         this.tier = tier;
-        this.maxOutput = EnergyUtils.getPowerFromTier(tier);
+        this.maxOutput = ElectricHelper.getMaxInputFromTier(tier);
         this.chargeSlot = new InvSlotMultiCharge(this, 0, tier, 4);
     }
 

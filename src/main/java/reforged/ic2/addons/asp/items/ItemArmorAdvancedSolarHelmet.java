@@ -8,9 +8,10 @@ import ic2.api.item.IMetalArmor;
 import ic2.core.IC2;
 import ic2.core.IC2Potion;
 import ic2.core.util.StackUtil;
+import mods.vintage.core.helpers.ElectricHelper;
 import mods.vintage.core.helpers.StackHelper;
 import mods.vintage.core.platform.config.IItemBlockIDProvider;
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.platform.lang.Translator;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -29,7 +30,6 @@ import net.minecraftforge.common.ISpecialArmor;
 import reforged.ic2.addons.asp.AdvancedSolarPanels;
 import reforged.ic2.addons.asp.AdvancedSolarPanelsConfig;
 import reforged.ic2.addons.asp.References;
-import reforged.ic2.addons.asp.utils.EnergyUtils;
 
 import java.util.*;
 
@@ -58,7 +58,7 @@ public class ItemArmorAdvancedSolarHelmet extends ItemArmor implements IElectric
     public ItemArmorAdvancedSolarHelmet(int id, String name, AdvancedSolarPanelsConfig.SolarConfig config) {
         super(id, EnumArmorMaterial.DIAMOND, AdvancedSolarPanels.PROXY.addArmor(name), 0);
         this.capacity = config.getStorage();
-        this.transfer = EnergyUtils.getPowerFromTier(config.getTier()) * 20;
+        this.transfer = ElectricHelper.getMaxInputFromTier(config.getTier()) * 20;
         this.tier = config.getTier();
         this.name = name;
 
@@ -86,27 +86,27 @@ public class ItemArmorAdvancedSolarHelmet extends ItemArmor implements IElectric
     @SuppressWarnings("unchecked")
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean debug) {
-        EnergyUtils.addEnergyInfo(list, this, stack);
+        ElectricHelper.energyTooltip(ElectricHelper.getCharge(stack), this.getMaxCharge(stack), this.getTier(stack));
         NBTTagCompound tag = StackHelper.getOrCreateTag(stack);
         boolean nightVision = tag.getBoolean("nightVision");
         if (nightVision) {
-            list.add(FormattedTranslator.GOLD.format("message.info.helmet.night.vision", FormattedTranslator.GREEN.format("message.info.enabled")));
+            list.add(Translator.GOLD.format("message.info.helmet.night.vision", Translator.GREEN.format("message.info.enabled")));
         } else {
-            list.add(FormattedTranslator.GOLD.format("message.info.helmet.night.vision", FormattedTranslator.RED.format("message.info.disabled")));
+            list.add(Translator.GOLD.format("message.info.helmet.night.vision", Translator.RED.format("message.info.disabled")));
         }
-        list.add(FormattedTranslator.GREEN.format("message.info.helmet.line1"));
+        list.add(Translator.GREEN.format("message.info.helmet.line1"));
         if (AdvancedSolarPanels.PROXY.isSneakKeyDown()) {
-            list.add(FormattedTranslator.GREEN.format("message.info.helmet.line2"));
-            list.add(FormattedTranslator.GRAY.format("message.info.press.to.enable2",
-                    FormattedTranslator.GOLD.literal("IC2 Alt Key"),
-                    FormattedTranslator.GOLD.literal("IC2 Mode Switch Key"),
-                    FormattedTranslator.YELLOW.format("message.info.helmet.night.vision.short")));
+            list.add(Translator.GREEN.format("message.info.helmet.line2"));
+            list.add(Translator.GRAY.format("message.info.press.to.enable2",
+                    Translator.GOLD.literal("IC2 Alt Key"),
+                    Translator.GOLD.literal("IC2 Mode Switch Key"),
+                    Translator.YELLOW.format("message.info.helmet.night.vision.short")));
             list.add("");
-            list.add(FormattedTranslator.GRAY.format("tooltip.info.solar.gen.day", FormattedTranslator.AQUA.literal(this.config.getGenDay() + "")));
-            list.add(FormattedTranslator.GRAY.format("tooltip.info.solar.gen.night", FormattedTranslator.AQUA.literal(this.config.getGenNight() + "")));
-            list.add(FormattedTranslator.GRAY.format("message.info.solar.max.out", FormattedTranslator.AQUA.literal(EnergyUtils.getPowerFromTier(this.config.getTier()) * 20 + "")));
+            list.add(Translator.GRAY.format("tooltip.info.solar.gen.day", Translator.AQUA.literal(this.config.getGenDay() + "")));
+            list.add(Translator.GRAY.format("tooltip.info.solar.gen.night", Translator.AQUA.literal(this.config.getGenNight() + "")));
+            list.add(Translator.GRAY.format("message.info.solar.max.out", Translator.AQUA.literal(ElectricHelper.getMaxInputFromTier(this.config.getTier()) * 20 + "")));
         } else {
-            list.add(FormattedTranslator.GRAY.format("message.info.press", FormattedTranslator.GOLD.format(References.SNEAK_KEY)));
+            list.add(Translator.GRAY.format("message.info.press", Translator.GOLD.format(References.SNEAK_KEY)));
         }
     }
 
@@ -145,7 +145,7 @@ public class ItemArmorAdvancedSolarHelmet extends ItemArmor implements IElectric
 
     @Override
     public void getSubItems(int id, CreativeTabs tab, List list) {
-        EnergyUtils.addChargeVariants(this, list);
+        ElectricHelper.addChargeVariants(this, list);
     }
 
     @SuppressWarnings("unchecked")
@@ -184,9 +184,9 @@ public class ItemArmorAdvancedSolarHelmet extends ItemArmor implements IElectric
             if (IC2.platform.isSimulating()) {
                 tag.setBoolean("nightVision", nightVision);
                 if (nightVision) {
-                    IC2.platform.messagePlayer(player, FormattedTranslator.GOLD.format("message.info.helmet.night.vision", FormattedTranslator.GREEN.format("message.info.enabled")));
+                    IC2.platform.messagePlayer(player, Translator.GOLD.format("message.info.helmet.night.vision", Translator.GREEN.format("message.info.enabled")));
                 } else {
-                    IC2.platform.messagePlayer(player, FormattedTranslator.GOLD.format("message.info.helmet.night.vision", FormattedTranslator.RED.format("message.info.disabled")));
+                    IC2.platform.messagePlayer(player, Translator.GOLD.format("message.info.helmet.night.vision", Translator.RED.format("message.info.disabled")));
                 }
             }
         }

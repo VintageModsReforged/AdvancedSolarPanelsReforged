@@ -3,7 +3,7 @@ package reforged.ic2.addons.asp.items;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mods.vintage.core.platform.config.IItemBlockIDProvider;
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.platform.lang.Translator;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -91,40 +91,40 @@ public class ItemComponent extends Item implements IItemBlockIDProvider {
 
     @Override
     public String getItemDisplayName(ItemStack stack) {
-        FormattedTranslator format;
+        Translator format;
         int meta = stack.getItemDamage();
         switch (meta) {
             case 1:
             case 5:
             case 9:
             case 12:
-                format = FormattedTranslator.GREEN;
+                format = Translator.GREEN;
                 break;
             case 0:
             case 4:
             case 8:
             case 16:
-                format = FormattedTranslator.YELLOW;
+                format = Translator.YELLOW;
                 break;
             case 2:
             case 6:
             case 10:
             case 13:
             case 17:
-                format = FormattedTranslator.RED;
+                format = Translator.RED;
                 break;
             case 3:
             case 7:
             case 11:
             case 19:
-                format = FormattedTranslator.DARK_AQUA;
+                format = Translator.DARK_AQUA;
                 break;
             case 18:
             case 21:
-                format = FormattedTranslator.LIGHT_PURPLE;
+                format = Translator.LIGHT_PURPLE;
                 break;
             default:
-                format = FormattedTranslator.GOLD;
+                format = Translator.GOLD;
         }
         return format.literal(super.getItemDisplayName(stack));
     }

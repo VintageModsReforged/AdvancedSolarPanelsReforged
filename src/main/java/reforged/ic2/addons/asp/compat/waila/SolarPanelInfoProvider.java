@@ -1,8 +1,10 @@
 package reforged.ic2.addons.asp.compat.waila;
 
+import mods.vintage.core.helpers.ElectricHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import reforged.ic2.addons.asp.tiles.TileEntityAdvancedSolarPanel;
+import reforged.ic2.addons.asp.tiles.TileEntityQuantumGenerator;
 import reforged.mods.blockhelper.addons.utils.ColorUtils;
 import reforged.mods.blockhelper.addons.utils.Formatter;
 import reforged.mods.blockhelper.addons.utils.InfoProvider;
@@ -14,6 +16,13 @@ public class SolarPanelInfoProvider extends InfoProvider {
 
     @Override
     public void addInfo(IWailaHelper helper, TileEntity blockeEntity, EntityPlayer player) {
+        if (blockeEntity instanceof TileEntityQuantumGenerator) {
+            TileEntityQuantumGenerator generator = (TileEntityQuantumGenerator) blockeEntity;
+            bar(helper, 1, 1, translate("info.energy.infinite"), ColorUtils.RED);
+            text(helper, tier(6));
+            text(helper, translate("info.generator.output", generator.packetEnergy * generator.packets));
+            text(helper, translate("info.generator.max_output", ElectricHelper.getMaxInputFromTier(6) * 64));
+        }
         if (blockeEntity instanceof TileEntityAdvancedSolarPanel) {
             TileEntityAdvancedSolarPanel panel = (TileEntityAdvancedSolarPanel) blockeEntity;
             int stored = panel.storage;

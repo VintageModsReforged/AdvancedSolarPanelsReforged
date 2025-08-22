@@ -3,7 +3,7 @@
     "modid": "AdvancedSolarPanels",
     "name": "Advanced Solar Panels",
     "description": "This is an addon for IndustrialCraft 2. Advanced Solar Panels adds powerful solar generators for IC2, with higher EU output and energy storage.",
-    "version": "1.5.2-4.0.0",
+    "version": "${version}",
     "mcversion": "1.5.2",
     "url": "",
     "authors": [

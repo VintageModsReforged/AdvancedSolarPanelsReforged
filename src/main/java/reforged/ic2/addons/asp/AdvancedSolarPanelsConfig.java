@@ -2,22 +2,22 @@ package reforged.ic2.addons.asp;
 
 import mods.vintage.core.helpers.ConfigHelper;
 import mods.vintage.core.platform.config.ItemBlockID;
+import mods.vintage.core.platform.lang.LocalizationProvider;
 import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 
-import java.util.Arrays;
-
+@LocalizationProvider
 public class AdvancedSolarPanelsConfig extends Configuration {
 
     public static final String SOLARS = "solar-energy-values";
 
+    @LocalizationProvider.List(modId = References.MOD_ID)
     public static String[] LANGS;
-    public static ItemBlockID ASP_META_BLOCK_ID = ItemBlockID.ofBlock("aspMetaBlockID", 1);
-    public static ItemBlockID ASP_TRANSFORMER_ID = ItemBlockID.ofBlock("aspTransformer", 1);
-    public static ItemBlockID ASP_ITEM_ID = ItemBlockID.ofItem("aspMetaItemID", 1);
-    public static ItemBlockID ADVANCED_HELMET_ID = ItemBlockID.ofItem("aspAdvancedHelmet", 1);
-    public static ItemBlockID HYBRID_HELMET_ID = ItemBlockID.ofItem("aspHybridHelmet", 1);
-    public static ItemBlockID ULTIMATE_HELMET_ID = ItemBlockID.ofItem("aspUltimateHelmet", 1);
+    public static ItemBlockID ASP_META_BLOCK_ID = ItemBlockID.ofBlock("aspMetaBlockID", 194);
+    public static ItemBlockID ASP_TRANSFORMER_ID = ItemBlockID.ofBlock("aspTransformer", 195);
+    public static ItemBlockID ASP_ITEM_ID = ItemBlockID.ofItem("aspMetaItemID", 30575);
+    public static ItemBlockID ADVANCED_HELMET_ID = ItemBlockID.ofItem("aspAdvancedHelmet", 30576);
+    public static ItemBlockID HYBRID_HELMET_ID = ItemBlockID.ofItem("aspHybridHelmet", 30577);
+    public static ItemBlockID ULTIMATE_HELMET_ID = ItemBlockID.ofItem("aspUltimateHelmet", 30578);
 
     // solar
     public static SolarConfig ADVANCED;
@@ -75,20 +75,13 @@ public class AdvancedSolarPanelsConfig extends Configuration {
         ULTIMATE_HELMET = ConfigHelper.getBoolean(this, "recipes-helmet", "ultimate", ULTIMATE_HELMET, "Enable Ultimate Solar Helmet Recipe");
     }
 
-    public static int[] getInts(Configuration cfg, String cat, String tag, int[] defaultValue, String comment) {
-        comment = comment.replace("{t}", tag) + "\n";
-        Property prop = cfg.get(cat, tag, defaultValue);
-        prop.comment = comment + "Default: " + Arrays.toString(defaultValue);
-        return prop.getIntList();
-    }
-
     public static class SolarConfig {
 
         public final int[] ENERGY_VALUES;
 
         public SolarConfig(Configuration handler, String prefix, int defDay, int defNight, int defStorage, int defTier) {
             int[] defaults = new int[] { defDay, defNight, defStorage, defTier };
-            ENERGY_VALUES = getInts(handler, SOLARS, prefix, defaults, "Values: genDay, genNight, storage, tier");
+            ENERGY_VALUES = ConfigHelper.getInts(handler, SOLARS, prefix, defaults, "Values: genDay, genNight, storage, tier");
         }
 
         public int getGenDay() {

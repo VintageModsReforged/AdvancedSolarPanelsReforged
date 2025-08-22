@@ -1,6 +1,6 @@
 package reforged.ic2.addons.asp.items;
 
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.platform.lang.Translator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -15,7 +15,7 @@ public class ItemMolecularTransformer extends ItemBlock {
 
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean debug) {
-        list.add(FormattedTranslator.GRAY.format("tooltip.info.solar.tier", FormattedTranslator.AQUA.literal(6 + "")));
+        list.add(Translator.GRAY.format("tooltip.info.solar.tier", Translator.AQUA.literal(6 + "")));
     }
 
     @Override
@@ -25,6 +25,6 @@ public class ItemMolecularTransformer extends ItemBlock {
 
     @Override
     public String getItemDisplayName(ItemStack stack) {
-        return FormattedTranslator.AQUA.literal(super.getItemDisplayName(stack));
+        return Translator.AQUA.literal(super.getItemDisplayName(stack));
     }
 }

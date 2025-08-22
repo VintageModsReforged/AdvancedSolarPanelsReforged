@@ -1,11 +1,11 @@
 package reforged.ic2.addons.asp.items;
 
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.helpers.ElectricHelper;
+import mods.vintage.core.platform.lang.Translator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import reforged.ic2.addons.asp.AdvancedSolarPanelsConfig;
-import reforged.ic2.addons.asp.utils.EnergyUtils;
 
 import java.util.List;
 
@@ -51,13 +51,13 @@ public class ItemBlockAdvancedSolarPanelsMeta extends ItemBlock {
             } else {
                 energyValues = AdvancedSolarPanelsConfig.PHOTONIC;
             }
-            list.add(FormattedTranslator.GRAY.format("tooltip.info.solar.tier", FormattedTranslator.AQUA.literal(energyValues.getTier() + "")));
-            list.add(FormattedTranslator.GRAY.format("tooltip.info.solar.gen.day", FormattedTranslator.AQUA.literal(energyValues.getGenDay() + "")));
-            list.add(FormattedTranslator.GRAY.format("tooltip.info.solar.gen.night", FormattedTranslator.AQUA.literal(energyValues.getGenNight() + "")));
-            list.add(FormattedTranslator.GRAY.format("message.info.solar.max.out", FormattedTranslator.AQUA.literal(EnergyUtils.getPowerFromTier(energyValues.getTier()) + "")));
+            list.add(Translator.GRAY.format("tooltip.info.solar.tier", Translator.AQUA.literal(energyValues.getTier() + "")));
+            list.add(Translator.GRAY.format("tooltip.info.solar.gen.day", Translator.AQUA.literal(energyValues.getGenDay() + "")));
+            list.add(Translator.GRAY.format("tooltip.info.solar.gen.night", Translator.AQUA.literal(energyValues.getGenNight() + "")));
+            list.add(Translator.GRAY.format("message.info.solar.max.out", Translator.AQUA.literal(ElectricHelper.getMaxInputFromTier(energyValues.getTier()) + "")));
         } else {
-            list.add(FormattedTranslator.GRAY.format("tooltip.info.solar.tier", FormattedTranslator.AQUA.literal(6 + "")));
-            list.add(FormattedTranslator.GRAY.format("message.info.solar.max.out", FormattedTranslator.AQUA.literal(EnergyUtils.getPowerFromTier(6) + "")));
+            list.add(Translator.GRAY.format("tooltip.info.solar.tier", Translator.AQUA.literal(6 + "")));
+            list.add(Translator.GRAY.format("message.info.solar.max.out", Translator.AQUA.literal(ElectricHelper.getMaxInputFromTier(6) + "")));
         }
     }
 
@@ -74,24 +74,24 @@ public class ItemBlockAdvancedSolarPanelsMeta extends ItemBlock {
 
     @Override
     public String getItemDisplayName(ItemStack stack) {
-        FormattedTranslator format;
+        Translator format;
         int meta = stack.getItemDamage();
         if (meta == 0) {
-            format = FormattedTranslator.YELLOW; // advanced
+            format = Translator.YELLOW; // advanced
         } else if (meta == 1) {
-            format = FormattedTranslator.AQUA; // hybrid
+            format = Translator.AQUA; // hybrid
         } else if (meta == 2) {
-            format = FormattedTranslator.LIGHT_PURPLE; // ultimate
+            format = Translator.LIGHT_PURPLE; // ultimate
         } else if (meta == 3) {
-            format = FormattedTranslator.DARK_AQUA; // quantum
+            format = Translator.DARK_AQUA; // quantum
         } else if (meta == 5) {
-            format = FormattedTranslator.GOLD; // spectral
+            format = Translator.GOLD; // spectral
         } else if (meta == 6) {
-            format = FormattedTranslator.GRAY; // singular
+            format = Translator.GRAY; // singular
         } else if (meta == 7 || meta == 4) {
-            format = FormattedTranslator.RED; // light absorbing
+            format = Translator.RED; // light absorbing
         } else {
-            format = FormattedTranslator.GREEN; // photonic
+            format = Translator.GREEN; // photonic
         }
 
         return format.literal(super.getItemDisplayName(stack));

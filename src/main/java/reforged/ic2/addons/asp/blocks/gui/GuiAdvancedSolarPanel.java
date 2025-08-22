@@ -1,12 +1,12 @@
 package reforged.ic2.addons.asp.blocks.gui;
 
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.platform.lang.Translator;
+import mods.vintage.core.utils.NumberFormatter;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
 import reforged.ic2.addons.asp.blocks.container.ContainerAdvancedSolarPanel;
 import reforged.ic2.addons.asp.tiles.TileEntityAdvancedSolarPanel;
-import reforged.ic2.addons.asp.utils.EnergyUtils;
 
 public class GuiAdvancedSolarPanel extends GuiContainer {
 
@@ -30,9 +30,9 @@ public class GuiAdvancedSolarPanel extends GuiContainer {
 
         int production = tile.isSunVisible() ? tile.dayGen : tile.nightGen;
         // Draw energy info
-        this.fontRenderer.drawString(FormattedTranslator.WHITE.format("message.info.solar.storage", EnergyUtils.formatInt(tile.storage, 4), EnergyUtils.formatInt(tile.maxStorage, 0)), 50, 22, 0);
-        this.fontRenderer.drawString(FormattedTranslator.WHITE.format("message.info.solar.max.out", tile.maxOutput), 50, 32, 0);
-        this.fontRenderer.drawString(FormattedTranslator.WHITE.format("message.info.solar.generating", production), 50, 42, 0);
+        this.fontRenderer.drawString(Translator.WHITE.format("message.info.solar.storage", NumberFormatter.formatInt(tile.storage, 4), NumberFormatter.formatInt(tile.maxStorage, 0)), 50, 22, 0);
+        this.fontRenderer.drawString(Translator.WHITE.format("message.info.solar.max.out", tile.maxOutput), 50, 32, 0);
+        this.fontRenderer.drawString(Translator.WHITE.format("message.info.solar.generating", production), 50, 42, 0);
     }
 
     @Override

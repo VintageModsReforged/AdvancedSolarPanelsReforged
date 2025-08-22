@@ -3,6 +3,7 @@ package reforged.ic2.addons.asp;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ic2.api.item.Items;
 import ic2.api.recipe.Recipes;
+import mods.vintage.core.helpers.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -124,7 +125,7 @@ public class ASPRecipes {
 
         Recipes.advRecipes.addRecipe(ASPBlocksItems.Component.MT_CORE.getStack(),
                 "X#X", "X X", "X#X",
-                '#', copyWithWildCard(Items.getItem("reactorReflectorThick")),
+                '#', StackHelper.copyWithWildCard(Items.getItem("reactorReflectorThick")),
                 'X', ASPBlocksItems.Component.IRRADIANT_GLASS_PANE.getStack());
 
         Recipes.advRecipes.addRecipe(ASPBlocksItems.Component.QUANTUM_CORE.getStack(),
@@ -251,7 +252,7 @@ public class ASPRecipes {
                     " B ", "#H#", "CTC",
                     'B', ASPBlocksItems.Panels.ADVANCED.getStack(),
                     '#', Items.getItem("advancedCircuit"),
-                    'H', copyWithWildCard(Items.getItem("nanoHelmet")),
+                    'H', StackHelper.copyWithWildCard(Items.getItem("nanoHelmet")),
                     'C', Items.getItem("doubleInsulatedGoldCableItem"),
                     'T', Items.getItem("lvTransformer"));
         }
@@ -261,7 +262,7 @@ public class ASPRecipes {
                     " B ", "#H#", "CTC",
                     'B', ASPBlocksItems.Panels.HYBRID.getStack(),
                     '#', Items.getItem("advancedCircuit"),
-                    'H', copyWithWildCard(Items.getItem("quantumHelmet")),
+                    'H', StackHelper.copyWithWildCard(Items.getItem("quantumHelmet")),
                     'C', Items.getItem("glassFiberCableItem"),
                     'T', Items.getItem("hvTransformer"));
         }
@@ -271,20 +272,14 @@ public class ASPRecipes {
                     " B ", "#H#", "CTC",
                     'B', ASPBlocksItems.Panels.ULTIMATE.getStack(),
                     '#', Items.getItem("advancedCircuit"),
-                    'H', copyWithWildCard(Items.getItem("quantumHelmet")),
+                    'H', StackHelper.copyWithWildCard(Items.getItem("quantumHelmet")),
                     'C', Items.getItem("glassFiberCableItem"),
                     'T', Items.getItem("hvTransformer"));
 
             Recipes.advRecipes.addRecipe(new ItemStack(ASPBlocksItems.ULTIMATE_HELMET),
                     "B", "H",
                     'B', ASPBlocksItems.Panels.ULTIMATE.getStack(),
-                    'H', copyWithWildCard(new ItemStack(ASPBlocksItems.HYBRID_HELMET)));
+                    'H', StackHelper.copyWithWildCard(new ItemStack(ASPBlocksItems.HYBRID_HELMET)));
         }
-    }
-
-    public static ItemStack copyWithWildCard(ItemStack itemStack) {
-        ItemStack ret = itemStack.copy();
-        Item.dyePowder.setDamage(ret, 32767);
-        return ret;
     }
 }

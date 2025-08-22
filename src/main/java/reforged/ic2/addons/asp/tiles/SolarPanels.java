@@ -1,6 +1,6 @@
 package reforged.ic2.addons.asp.tiles;
 
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.platform.lang.Translator;
 import reforged.ic2.addons.asp.AdvancedSolarPanelsConfig;
 
 public class SolarPanels {
@@ -12,7 +12,7 @@ public class SolarPanels {
 
         @Override
         public String getInvName() {
-            return FormattedTranslator.YELLOW.format("block.solar.advanced.name");
+            return Translator.YELLOW.format("block.solar.advanced.name");
         }
     }
 
@@ -23,7 +23,7 @@ public class SolarPanels {
 
         @Override
         public String getInvName() {
-            return FormattedTranslator.AQUA.format("block.solar.hybrid.name");
+            return Translator.AQUA.format("block.solar.hybrid.name");
         }
     }
 
@@ -34,7 +34,7 @@ public class SolarPanels {
 
         @Override
         public String getInvName() {
-            return FormattedTranslator.LIGHT_PURPLE.format("block.solar.ultimate.name");
+            return Translator.LIGHT_PURPLE.format("block.solar.ultimate.name");
         }
     }
 
@@ -45,7 +45,7 @@ public class SolarPanels {
 
         @Override
         public String getInvName() {
-            return FormattedTranslator.DARK_AQUA.format("block.solar.quantum.name");
+            return Translator.DARK_AQUA.format("block.solar.quantum.name");
         }
     }
 
@@ -56,7 +56,7 @@ public class SolarPanels {
 
         @Override
         public String getInvName() {
-            return FormattedTranslator.GOLD.format("block.solar.spectral.name");
+            return Translator.GOLD.format("block.solar.spectral.name");
         }
     }
 
@@ -67,7 +67,7 @@ public class SolarPanels {
 
         @Override
         public String getInvName() {
-            return FormattedTranslator.GRAY.format("block.solar.singular.name");
+            return Translator.GRAY.format("block.solar.singular.name");
         }
     }
 
@@ -78,7 +78,7 @@ public class SolarPanels {
 
         @Override
         public String getInvName() {
-            return FormattedTranslator.RED.format("block.solar.light_absorbing.name");
+            return Translator.RED.format("block.solar.light_absorbing.name");
         }
     }
 
@@ -89,7 +89,7 @@ public class SolarPanels {
 
         @Override
         public String getInvName() {
-            return FormattedTranslator.GREEN.format("block.solar.photonic.name");
+            return Translator.GREEN.format("block.solar.photonic.name");
         }
     }
 }

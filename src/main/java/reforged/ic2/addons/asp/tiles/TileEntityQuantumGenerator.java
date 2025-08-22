@@ -6,7 +6,8 @@ import ic2.api.network.INetworkClientTileEntityEventListener;
 import ic2.core.ContainerBase;
 import ic2.core.IC2;
 import ic2.core.block.generator.tileentity.TileEntityBaseGenerator;
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.helpers.ElectricHelper;
+import mods.vintage.core.platform.lang.Translator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +15,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import reforged.ic2.addons.asp.blocks.container.ContainerQuantumGenerator;
 import reforged.ic2.addons.asp.blocks.gui.GuiQuantumGenerator;
-import reforged.ic2.addons.asp.utils.EnergyUtils;
 
 public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implements INetworkClientTileEntityEventListener {
 
@@ -82,7 +82,7 @@ public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implemen
 
     @Override
     public String getInvName() {
-        return FormattedTranslator.WHITE.format("block.quantum.generator.name");
+        return Translator.WHITE.format("block.quantum.generator.name");
     }
 
     @Override
@@ -188,6 +188,6 @@ public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implemen
     }
 
     public void changeTier(int tier) {
-        this.packetEnergy = EnergyUtils.getPowerFromTier(tier);
+        this.packetEnergy = ElectricHelper.getMaxInputFromTier(tier);
     }
 }

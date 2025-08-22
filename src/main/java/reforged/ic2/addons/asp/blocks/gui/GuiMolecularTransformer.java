@@ -1,6 +1,6 @@
 package reforged.ic2.addons.asp.blocks.gui;
 
-import mods.vintage.core.platform.lang.FormattedTranslator;
+import mods.vintage.core.platform.lang.Translator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
@@ -57,15 +57,15 @@ public class GuiMolecularTransformer extends GuiContainer {
         if (this.tile.lastProgress > 0 || tile.doWork) {
             if (lastRecipe != -1) {
                 RecipeRecord recipe = MTRecipeManager.instance.getRecipes().get(lastRecipe);
-                String text = FormattedTranslator.WHITE.format("message.info.molecular.input", recipe.input.stackSize + "*" + recipe.input.getDisplayName());
+                String text = Translator.WHITE.format("message.info.molecular.input", recipe.input.stackSize + "*" + recipe.input.getDisplayName());
                 this.fontRenderer.drawString(text, 56, 26, 0);
-                text = FormattedTranslator.WHITE.format("message.info.molecular.output", recipe.output.stackSize + "*" + recipe.output.getDisplayName());
+                text = Translator.WHITE.format("message.info.molecular.output", recipe.output.stackSize + "*" + recipe.output.getDisplayName());
                 this.fontRenderer.drawString(text, 56, 26 + offset, 0);
-                text = FormattedTranslator.WHITE.format("message.info.molecular.energy", recipe.energy);
+                text = Translator.WHITE.format("message.info.molecular.energy", recipe.energy);
                 this.fontRenderer.drawString(text, 56, 26 + offset * 2, 0);
-                text = FormattedTranslator.WHITE.format("message.info.molecular.energy.in", this.tile.inputEU);
+                text = Translator.WHITE.format("message.info.molecular.energy.in", this.tile.inputEU);
                 this.fontRenderer.drawString(text, 56, 26 + offset * 3, 0);
-                text = FormattedTranslator.WHITE.format("message.info.molecular.progress", this.tile.lastProgress);
+                text = Translator.WHITE.format("message.info.molecular.progress", this.tile.lastProgress);
                 this.fontRenderer.drawString(text, 56, 26 + offset * 4, 0);
             }
         }
