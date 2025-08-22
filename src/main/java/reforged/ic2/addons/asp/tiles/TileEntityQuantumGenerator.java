@@ -20,7 +20,6 @@ public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implemen
 
     public int packets = 4; // number of packets to send
     public int packetEnergy = 32; // energy in each packet
-    boolean addedToEnet;
 
     public TileEntityQuantumGenerator() {
         super(0, 0);
@@ -31,11 +30,6 @@ public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implemen
         super.writeToNBT(compound);
         compound.setInteger("packets", this.packets);
         compound.setInteger("packetEnergy", this.packetEnergy);
-    }
-
-    @Override
-    public int gaugeFuelScaled(int i) {
-        return 0;
     }
 
     @Override
@@ -76,6 +70,11 @@ public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implemen
     }
 
     @Override
+    public int gaugeFuelScaled(int i) {
+        return 0;
+    }
+
+    @Override
     public boolean gainFuel() {
         return false;
     }
@@ -93,11 +92,6 @@ public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implemen
     @Override
     public boolean emitsEnergyTo(TileEntity tileEntity, Direction direction) {
         return true;
-    }
-
-    @Override
-    public boolean isAddedToEnergyNet() {
-        return this.addedToEnet;
     }
 
     @Override
