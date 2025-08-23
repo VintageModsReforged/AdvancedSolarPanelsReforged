@@ -11,6 +11,7 @@ import ic2.core.block.TileEntityInventory;
 import ic2.core.block.invslot.InvSlotOutput;
 import mods.vintage.core.helpers.ElectricHelper;
 import mods.vintage.core.platform.lang.Translator;
+import mods.vintage.core.utils.Tuple;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -119,10 +120,10 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
     }
 
     public boolean canProcess() {
-        Pair<RecipeRecord, Integer> recipePair = getCurrentRecipe();
+        Tuple<RecipeRecord, Integer> recipePair = getCurrentRecipe();
         if (recipePair == null) return false;
-        ItemStack inputStack = recipePair.recipe.input;
-        ItemStack outputStack = recipePair.recipe.output;
+        ItemStack inputStack = recipePair.getFirst().input;
+        ItemStack outputStack = recipePair.getFirst().output;
         if (inputStack.isItemEqual(this.inputSlot.get(0))) {
             if (this.outputSlot.get(0) != null) {
                 if (outputStack.isItemEqual(this.outputSlot.get(0))) {
@@ -138,8 +139,8 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
             }
             this.lastRecipeInput = inputStack;
             this.lastRecipeOutput = outputStack;
-            this.lastRecipeEnergyPerOperation = recipePair.recipe.energy;
-            this.lastRecipeNumber = recipePair.index;
+            this.lastRecipeEnergyPerOperation = recipePair.getFirst().energy;
+            this.lastRecipeNumber = recipePair.getSecond();
             return true;
         }
         return false;
@@ -235,14 +236,14 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
             this.lastProgress = 0;
             this.lastRecipeEnergyUsed = 0;
         } else {
-            Pair<RecipeRecord, Integer> recipe = getCurrentRecipe(this.lastRecipeInput, this.lastRecipeOutput);
-            if (recipe.index <= 0) {
+            Tuple<RecipeRecord, Integer> recipe = getCurrentRecipe(this.lastRecipeInput, this.lastRecipeOutput);
+            if (recipe.getSecond() <= 0) {
                 this.lastRecipeNumber = -1;
                 this.doWork = false;
                 this.lastProgress = 0;
                 this.lastRecipeEnergyUsed = 0;
             } else {
-                this.lastRecipeNumber = recipe.index;
+                this.lastRecipeNumber = recipe.getSecond();
             }
         }
     }
@@ -337,26 +338,26 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
         return this.addedToEnergyNet;
     }
 
-    public Pair<RecipeRecord, Integer> getCurrentRecipe() {
+    public Tuple<RecipeRecord, Integer> getCurrentRecipe() {
         if (this.inputSlot.get(0) == null) return null;
         ItemStack inputStack = this.inputSlot.get(0);
         List<RecipeRecord> recipes = MTRecipeManager.instance.getRecipes();
         for (int i = 0; i < recipes.size(); i++) {
             RecipeRecord recipe = recipes.get(i);
             if (recipe.input.isItemEqual(inputStack)) {
-                return new Pair<RecipeRecord, Integer>(recipe, i);
+                return new Tuple<RecipeRecord, Integer>(recipe, i);
             }
         }
         return null;
     }
 
-    public Pair<RecipeRecord, Integer> getCurrentRecipe(ItemStack input, ItemStack output) {
+    public Tuple<RecipeRecord, Integer> getCurrentRecipe(ItemStack input, ItemStack output) {
         if (input == null || output == null) return null;
         List<RecipeRecord> recipes = MTRecipeManager.instance.getRecipes();
         for (int i = 0; i < recipes.size(); i++) {
             RecipeRecord recipe = recipes.get(i);
             if (input.isItemEqual(recipe.input) && output.isItemEqual(recipe.output)) {
-                return new Pair<RecipeRecord, Integer>(recipes.get(i), i);
+                return new Tuple<RecipeRecord, Integer>(recipes.get(i), i);
             }
         }
         return null;
@@ -377,14 +378,4 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
     /// -------------- UNUSED
     @Override
     public void onGuiClosed(EntityPlayer entityPlayer) {}
-
-    public static class Pair<RECIPE, INDEX> {
-        RECIPE recipe;
-        INDEX index;
-
-        public Pair(RECIPE recipe, INDEX index) {
-            this.recipe = recipe;
-            this.index = index;
-        }
-    }
 }
