@@ -32,12 +32,13 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
     public GenerationState generationState = GenerationState.NONE;
     // common production
     public int production;
+    String invName;
 
-    public TileEntityAdvancedSolarPanel(AdvancedSolarPanelsConfig.SolarConfig energyConfig) {
-        this(energyConfig.getGenDay(), energyConfig.getGenNight(), energyConfig.getStorage(), energyConfig.getTier());
+    public TileEntityAdvancedSolarPanel(AdvancedSolarPanelsConfig.SolarConfig energyConfig, String invName) {
+        this(energyConfig.getGenDay(), energyConfig.getGenNight(), energyConfig.getStorage(), energyConfig.getTier(), invName);
     }
 
-    public TileEntityAdvancedSolarPanel(int dayGen, int nightGen, int maxStorage, int tier) {
+    public TileEntityAdvancedSolarPanel(int dayGen, int nightGen, int maxStorage, int tier, String invName) {
         super(0, maxStorage);
         this.dayGen = dayGen;
         this.nightGen = nightGen;
@@ -45,6 +46,12 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
         this.tier = tier;
         this.maxOutput = ElectricHelper.getMaxInputFromTier(tier);
         this.chargeSlot = new InvSlotMultiCharge(this, 0, tier, 4);
+        this.invName = invName;
+    }
+
+    @Override
+    public String getInvName() {
+        return this.invName;
     }
 
     @Override
@@ -223,11 +230,6 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
     @Override
     public boolean gainFuel() {
         return false;
-    }
-
-    @Override
-    public String getInvName() {
-        return "";
     }
 
     @Override
