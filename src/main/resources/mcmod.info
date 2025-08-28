@@ -1,23 +1,14 @@
 [
   {
-    "modid": "AdvancedSolarPanels",
-    "name": "Advanced Solar Panels",
-    "description": "This is an addon for IndustrialCraft 2. Advanced Solar Panels adds powerful solar generators for IC2, with higher EU output and energy storage.",
-    "version": "${version}",
-    "mcversion": "1.5.2",
-    "url": "",
-    "authors": [
-      "Reforged: CrossVas. Original: SeNtiMeL, Icedfire"
-    ],
-    "credits": "Reforged By CrossVas. Formerly created by SeNtiMeL, based on original mod of Icedfire.",
-    "requiredMods": [
-      "IC2",
-      "VintageCore"
-    ],
+    "modid": "${modid}",
+    "name": "${modName}",
+    "description": "${modDescription}",
+    "version": "${modVersion}",
+    "mcversion": "${minecraft}",
+    "authorList": ["${modAuthors}"],
+    "url": "${url}",
     "dependencies": [
-      "IC2",
-      "VintageCore"
-    ],
-    "useDependencyInformation": "true"
+      "${modDeps}"
+    ]
   }
 ]

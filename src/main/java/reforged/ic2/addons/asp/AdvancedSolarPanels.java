@@ -15,7 +15,7 @@ import reforged.ic2.addons.asp.proxy.CommonProxy;
 
 import java.util.logging.Logger;
 
-@Mod(modid = References.MOD_ID, name = References.NAME, useMetadata = true)
+@Mod(modid = References.MOD_ID, useMetadata = true)
 public class AdvancedSolarPanels {
 
     public static final Logger LOG = Logger.getLogger(References.NAME);
