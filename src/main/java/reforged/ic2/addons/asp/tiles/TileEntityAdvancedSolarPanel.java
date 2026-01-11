@@ -129,7 +129,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator implem
         if (!this.delayActiveUpdate()) {
             this.setActive(newActive);
         } else {
-            if (this.ticksSinceLastActiveUpdate % 256 == 0) {
+            if (this.ticksSinceLastActiveUpdate % 128 == 0) {
                 this.setActive(this.activityMeter > 0);
                 this.activityMeter = 0;
             }
