@@ -85,10 +85,19 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator implem
 
     @Override
     public void updateEntity() {
-        boolean markDirty = false;
-        int oldStorage = storage;
-        // generate power
-        if (this.production > 0) {
+        super.updateEntity();
+        boolean needsUpdate = false;
+        if (needsFuel()) {
+            needsUpdate = this.gainFuel();
+        }
+
+        boolean newActive = gainEnergy();
+        if (this.storage > this.maxStorage) {
+            this.storage = this.maxStorage;
+        }
+
+        gain();
+        if (production > 0) {
             if (this.storage + this.production <= this.maxStorage) {
                 this.storage += this.production;
             } else {
@@ -96,7 +105,6 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator implem
             }
         }
 
-        boolean active = this.gainEnergy();
         if (this.storage > 0) {
             // handler charging slots
             int charged = 0;
@@ -105,41 +113,34 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator implem
                 if (this.storage <= 0) break;
                 if (stack != null) {
                     charged = ElectricItem.manager.charge(stack, this.storage, this.tier, false, false);
-                    if (charged > 0) markDirty = true;
+                    if (charged > 0) needsUpdate = true;
                 }
             }
-            this.storage -= charged;
-
-            // output energy to the world
-            if (this.storage - maxOutput > 0) {
-                this.storage = this.storage - (maxOutput - sendEnergy(maxOutput));
+            if (this.storage - this.production >= 0) {
+                this.storage -= this.production - this.sendEnergy(this.production);
             }
+            this.storage -= charged;
         }
 
-        // ticking and updating
+        if (needsUpdate) {
+            this.onInventoryChanged();
+        }
+
         if (!this.delayActiveUpdate()) {
-            this.setActive(active);
+            this.setActive(newActive);
         } else {
-            if (this.ticksSinceLastActiveUpdate % 128 == 0) {
+            if (this.ticksSinceLastActiveUpdate % 256 == 0) {
                 this.setActive(this.activityMeter > 0);
                 this.activityMeter = 0;
             }
 
-            if (active) {
+            if (newActive) {
                 ++this.activityMeter;
             } else {
                 --this.activityMeter;
             }
 
             ++this.ticksSinceLastActiveUpdate;
-        }
-
-        if (oldStorage != this.storage) {
-            markDirty = true;
-        }
-
-        if (markDirty) {
-            this.onInventoryChanged();
         }
     }
 
@@ -153,16 +154,21 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator implem
         return direction.toForgeDirection() != ForgeDirection.UP;
     }
 
-    @Override
-    public boolean isConverting() {
-        if (this.skyBlockCheck()) {
-            if (isSunVisible()) {
-                return this.storage + this.dayGen <= this.maxStorage;
+    public void gain() {
+        if (this.ticksSinceLastActiveUpdate % 128 == 0) {
+            if (isConverting()) {
+                if (this.skyBlockCheck()) {
+                    if (isSunVisible()) {
+                        this.production = this.dayGen;
+                    } else {
+                        this.production = this.nightGen;
+                    }
+                } else {
+                    this.production = 0;
+                }
             } else {
-                return this.storage + this.nightGen <= this.maxStorage;
+                this.production = 0;
             }
-        } else {
-            return false;
         }
     }
 
@@ -183,6 +189,14 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator implem
         }
     }
 
+    @Override
+    public boolean isConverting() {
+        if (this.skyBlockCheck()) {
+            return isSunVisible();
+        } else {
+            return false;
+        }
+    }
 
     @Override
     public ContainerBase getGuiContainer(EntityPlayer player) {
@@ -243,5 +257,10 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator implem
     @Override
     public int gaugeFuelScaled(int fuel) {
         return fuel;
+    }
+
+    @Override
+    public boolean needsFuel() {
+        return true;
     }
 }
