@@ -11,12 +11,15 @@ import mods.vintage.core.platform.lang.Translator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import reforged.ic2.addons.asp.blocks.container.ContainerQuantumGenerator;
 import reforged.ic2.addons.asp.blocks.gui.GuiQuantumGenerator;
+import reforged.ic2.addons.asp.network.INetworkedTile;
+import reforged.ic2.addons.asp.network.packets.PacketQuantumGenerator;
 
-public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implements INetworkClientTileEntityEventListener {
+public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implements INetworkClientTileEntityEventListener, INetworkedTile {
 
     public int packets = 4; // number of packets to send
     public int packetEnergy = 32; // energy in each packet
@@ -183,5 +186,10 @@ public class TileEntityQuantumGenerator extends TileEntityBaseGenerator implemen
 
     public void changeTier(int tier) {
         this.packetEnergy = ElectricHelper.getMaxInputFromTier(tier);
+    }
+
+    @Override
+    public Packet250CustomPayload getPacket() {
+        return new PacketQuantumGenerator(this).encode();
     }
 }

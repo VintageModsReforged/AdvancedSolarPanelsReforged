@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -18,9 +19,11 @@ import net.minecraftforge.common.ForgeDirection;
 import reforged.ic2.addons.asp.AdvancedSolarPanelsConfig;
 import reforged.ic2.addons.asp.blocks.container.ContainerAdvancedSolarPanel;
 import reforged.ic2.addons.asp.blocks.gui.GuiAdvancedSolarPanel;
+import reforged.ic2.addons.asp.network.INetworkedTile;
+import reforged.ic2.addons.asp.network.packets.PacketAdvSolarPanel;
 import reforged.ic2.addons.asp.utils.InvSlotMultiCharge;
 
-public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
+public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator implements INetworkedTile {
 
     public int maxStorage;
     public int dayGen;
@@ -83,7 +86,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
     @Override
     public void updateEntity() {
         boolean markDirty = false;
-        int oldEnergy = this.storage;
+        int oldStorage = storage;
         // generate power
         if (this.production > 0) {
             if (this.storage + this.production <= this.maxStorage) {
@@ -131,7 +134,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
             ++this.ticksSinceLastActiveUpdate;
         }
 
-        if (oldEnergy != this.storage) {
+        if (oldStorage != this.storage) {
             markDirty = true;
         }
 
@@ -220,6 +223,11 @@ public class TileEntityAdvancedSolarPanel extends TileEntityBaseGenerator {
         }
 
         return false;
+    }
+
+    @Override
+    public Packet250CustomPayload getPacket() {
+        return new PacketAdvSolarPanel(this).encode();
     }
 
     public enum GenerationState {

@@ -17,10 +17,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import reforged.ic2.addons.asp.blocks.container.ContainerMolecularTransformer;
 import reforged.ic2.addons.asp.blocks.gui.GuiMolecularTransformer;
+import reforged.ic2.addons.asp.network.INetworkedTile;
+import reforged.ic2.addons.asp.network.packets.PacketMolecularTransformer;
 import reforged.ic2.addons.asp.utils.molecular.MTRecipeManager;
 import reforged.ic2.addons.asp.utils.molecular.RecipeRecord;
 import reforged.ic2.addons.asp.utils.molecular.MolecularInputSlot;
@@ -28,7 +31,7 @@ import reforged.ic2.addons.asp.utils.molecular.MolecularInputSlot;
 import java.util.List;
 import java.util.Random;
 
-public class TileEntityMolecularTransformer extends TileEntityInventory implements IHasGui, IEnergySink {
+public class TileEntityMolecularTransformer extends TileEntityInventory implements IHasGui, IEnergySink, INetworkedTile {
 
     public static Random randomizer = new Random();
     public int ticker;
@@ -378,4 +381,9 @@ public class TileEntityMolecularTransformer extends TileEntityInventory implemen
     /// -------------- UNUSED
     @Override
     public void onGuiClosed(EntityPlayer entityPlayer) {}
+
+    @Override
+    public Packet250CustomPayload getPacket() {
+        return new PacketMolecularTransformer(this).encode();
+    }
 }

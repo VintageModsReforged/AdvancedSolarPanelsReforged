@@ -3,18 +3,20 @@ package reforged.ic2.addons.asp.blocks.container;
 import ic2.core.ContainerBase;
 import ic2.core.slot.SlotInvSlot;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
+import reforged.ic2.addons.asp.AdvancedSolarPanels;
 import reforged.ic2.addons.asp.tiles.TileEntityMolecularTransformer;
 
 public class ContainerMolecularTransformer extends ContainerBase {
 
     public TileEntityMolecularTransformer tile;
 
-    private short lastProgress;
-    private int doWork;
-    private int lastRecipeNumber;
+    private boolean lastDoWork = false;
+    private short lastProgress = -1;
+    private int lastRecipeNumber = -1;
 
     public ContainerMolecularTransformer(InventoryPlayer inventoryPlayer, TileEntityMolecularTransformer tile) {
         super(tile);
@@ -33,78 +35,31 @@ public class ContainerMolecularTransformer extends ContainerBase {
     @Override
     public void addCraftingToCrafters(ICrafting crafter) {
         super.addCraftingToCrafters(crafter);
-
-        sendShortSplit(crafter, 0, tile.lastRecipeEnergyUsed);
-        sendShortSplit(crafter, 2, tile.lastRecipeEnergyPerOperation);
-        crafter.sendProgressBarUpdate(this, 4, tile.doWork ? 1 : 0);
-        crafter.sendProgressBarUpdate(this, 5, tile.lastProgress);
-        crafter.sendProgressBarUpdate(this, 6, tile.lastRecipeNumber);
-        sendShortSplit(crafter, 7, tile.inputEU);
+        if (crafter instanceof EntityPlayerMP) {
+            AdvancedSolarPanels.network.sendTilePacket((EntityPlayerMP) crafter, tile);
+        }
     }
 
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < this.crafters.size(); i++) {
-            ICrafting crafter = (ICrafting) this.crafters.get(i);
+        boolean changed = lastDoWork != tile.doWork ||
+                        lastProgress != tile.lastProgress ||
+                        lastRecipeNumber != tile.lastRecipeNumber;
 
-            sendShortSplit(crafter, 0, tile.lastRecipeEnergyUsed);
-            sendShortSplit(crafter, 2, tile.lastRecipeEnergyPerOperation);
-            sendShortSplit(crafter, 7, tile.inputEU);
+        if (changed) {
+            for (Object crafter : this.crafters) {
+                if (crafter instanceof EntityPlayerMP) {
+                    AdvancedSolarPanels.network.sendTilePacket((EntityPlayerMP) crafter, tile);
+                }
+            }
 
-            if (this.doWork != (tile.doWork ? 1 : 0)) {
-                crafter.sendProgressBarUpdate(this, 4, tile.doWork ? 1 : 0);
-            }
-            if (this.lastProgress != tile.lastProgress) {
-                crafter.sendProgressBarUpdate(this, 5, tile.lastProgress);
-            }
-            if (this.lastRecipeNumber != tile.lastRecipeNumber) {
-                crafter.sendProgressBarUpdate(this, 6, tile.lastRecipeNumber);
-            }
+            // update cache
+            lastDoWork = tile.doWork;
+            lastProgress = tile.lastProgress;
+            lastRecipeNumber = tile.lastRecipeNumber;
         }
-
-        this.doWork = tile.doWork ? 1 : 0;
-        this.lastProgress = tile.lastProgress;
-        this.lastRecipeNumber = tile.lastRecipeNumber;
-    }
-
-    @Override
-    public void updateProgressBar(int index, int value) {
-        switch (index) {
-            case 0:
-                tile.lastRecipeEnergyUsed = (tile.lastRecipeEnergyUsed & 0xFFFF0000) | (value & 0xFFFF);
-                break;
-            case 1:
-                tile.lastRecipeEnergyUsed = (tile.lastRecipeEnergyUsed & 0xFFFF) | (value << 16);
-                break;
-            case 2:
-                tile.lastRecipeEnergyPerOperation = (tile.lastRecipeEnergyPerOperation & 0xFFFF0000) | (value & 0xFFFF);
-                break;
-            case 3:
-                tile.lastRecipeEnergyPerOperation = (tile.lastRecipeEnergyPerOperation & 0xFFFF) | (value << 16);
-                break;
-            case 4:
-                tile.doWork = (value == 1);
-                break;
-            case 5:
-                tile.lastProgress = (short) value;
-                break;
-            case 6:
-                tile.lastRecipeNumber = value;
-                break;
-            case 7:
-                tile.inputEU = (tile.inputEU & 0xFFFF0000) | (value & 0xFFFF);
-                break;
-            case 8:
-                tile.inputEU = (tile.inputEU & 0xFFFF) | (value << 16);
-                break;
-        }
-    }
-
-    private void sendShortSplit(ICrafting crafter, int baseIndex, int value) {
-        crafter.sendProgressBarUpdate(this, baseIndex, value & 0xFFFF);
-        crafter.sendProgressBarUpdate(this, baseIndex + 1, value >>> 16);
     }
 
     @Override

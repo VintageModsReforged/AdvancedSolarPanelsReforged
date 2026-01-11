@@ -3,21 +3,23 @@ package reforged.ic2.addons.asp.blocks.container;
 import ic2.core.ContainerBase;
 import ic2.core.slot.SlotInvSlot;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
+import reforged.ic2.addons.asp.AdvancedSolarPanels;
 import reforged.ic2.addons.asp.tiles.TileEntityAdvancedSolarPanel;
 
 public class ContainerAdvancedSolarPanel extends ContainerBase {
 
     TileEntityAdvancedSolarPanel tile;
-    int storage;
-    TileEntityAdvancedSolarPanel.GenerationState generationState;
+    // cache last sent values for this player
+    private int lastStorage = -1;
+    private TileEntityAdvancedSolarPanel.GenerationState lastGenState = null;
 
     public ContainerAdvancedSolarPanel(InventoryPlayer inventoryPlayer, TileEntityAdvancedSolarPanel tile) {
         super(tile);
         this.tile = tile;
-        this.storage = 0;
         for (int i = 0; i < 4; i++) {
             addSlotToContainer(new SlotInvSlot(tile.chargeSlot, i, 17 + i * 18, 59));
         }
@@ -33,35 +35,28 @@ public class ContainerAdvancedSolarPanel extends ContainerBase {
     @Override
     public void addCraftingToCrafters(ICrafting crafting) {
         super.addCraftingToCrafters(crafting);
-        crafting.sendProgressBarUpdate(this, 0, this.tile.generationState.ordinal());
-        crafting.sendProgressBarUpdate(this, 1, this.tile.storage & 0xFFFF);
-        crafting.sendProgressBarUpdate(this, 2, this.tile.storage >>> 16);
+
+        if (crafting instanceof EntityPlayerMP) {
+            AdvancedSolarPanels.network.sendTilePacket((EntityPlayerMP) crafting, tile);
+        }
+
+        // cache last values
+        lastStorage = tile.storage;
+        lastGenState = tile.generationState;
     }
 
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        for (int i = 0; i < this.crafters.size(); i++) {
-            ICrafting crafting = (ICrafting) this.crafters.get(i);
-            crafting.sendProgressBarUpdate(this, 0, this.tile.generationState.ordinal());
-            crafting.sendProgressBarUpdate(this, 1, this.tile.storage & 0xFFFF);
-            crafting.sendProgressBarUpdate(this, 2, this.tile.storage >>> 16);
-        }
-
-        this.storage = tile.storage;
-        this.generationState = this.tile.generationState;
-    }
-
-    @Override
-    public void updateProgressBar(int index, int value) {
-        if (index == 0) {
-            this.tile.generationState = TileEntityAdvancedSolarPanel.GenerationState.values()[value];
-        }
-        if (index == 1) {
-            this.tile.storage = this.tile.storage & 0xFFFF0000 | value;
-        }
-        if (index == 2) {
-            this.tile.storage = this.tile.storage & 0xFFFF | value << 16;
+        if (lastStorage != tile.storage || lastGenState != tile.generationState) {
+            for (Object crafter : this.crafters) {
+                if (crafter instanceof EntityPlayerMP) {
+                    AdvancedSolarPanels.network.sendTilePacket((EntityPlayerMP) crafter, tile);
+                }
+            }
+            // update cache
+            lastStorage = tile.storage;
+            lastGenState = tile.generationState;
         }
     }
 

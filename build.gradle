@@ -26,7 +26,7 @@ compileJava {
 String minecraftVersion = project.minecraft
 String forgeVersion = project.minecraft_forge
 archivesBaseName = project.modid
-version = project.mod_version
+version = project.modVersion
 
 volde {
 	runs {
@@ -49,7 +49,7 @@ dependencies {
 
 	implementation 'com.google.code.gson:gson:2.11.0'
 
-	modImplementation files("libs/VintageCore-1.5.2-2.0.0-dev.jar")
+	modImplementation files("libs/VintageCore-1.5.2-2.0.1-dev.jar")
 	modImplementation files("libs/BlockHelperAddons-1.5.2-2.0.0-beta6-dev.jar")
 	modImplementation files("libs/industrialcraft-2_1.117.385-lf.jar")
 	modImplementation files("libs/craftguide.zip")
